@@ -1,0 +1,25 @@
+<div class="fixed-grid has-4-cols">
+  <div class="grid">
+    <div class="cell">
+      <%= turbo_frame_tag "new_post_frame", src: new_post_path %>
+    </div>
+    <div class="cell is-col-span-2">
+      <span class="title">Community</span>
+      <%= turbo_frame_tag "posts", src: posts_path %>
+    </div>
+    <div class="cell">
+      <aside class="menu">
+        <p class="menu-label">Feeds</p>
+        <ul class="menu-list">
+          <li><a>Following</a></li>
+          <li><a>Community</a></li>
+          <li><a>Global</a></li>
+        </ul>
+        <p class="menu-label">Management</p>
+        <ul class="menu-list">
+          <li><a>Preferences</a></li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</div>
