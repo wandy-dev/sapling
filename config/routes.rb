@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :posts
+  resources :posts do
+    resources :replies
+  end
   resources :accounts
   devise_for :users
   get "up" => "rails/health#show", as: :rails_health_check

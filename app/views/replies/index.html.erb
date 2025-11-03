@@ -1,0 +1,7 @@
+<%= turbo_frame_tag "replies" do %>
+  <% if @posts %>
+    <% @posts.each do |post| %>
+      <%= render 'reply', reply: post %>
+    <% end %>
+  <% end %>
+<% end %>

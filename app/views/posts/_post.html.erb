@@ -16,12 +16,15 @@
   </div>
   <div class="content">
     <p><%= post.body %></p>
-    <details>
-      <Summary>Comments</Summary>
-      <% post.replies.each do |reply| %>
-        <%= render "reply", reply: reply %>
-      <% end %>
-    </details>
-    <%= render "reply_form", in_reply_to: post, reply: Post.new %>
+  </div>
+  <p class="is-7">
+    0 Likes
+    |
+    <%= link_to "#{post.replies.count} comments", post_path(post) %>
+  </p>
+  <div class="actions">
+    <%= link_to "❤️ Like", "#", class: 'button is-small is-rounded' %>
+    <%= link_to "💬  Comment", post_path(post), class: 'button is-small is-rounded' %>
+    <%= link_to "🌐  Share", "#", class: 'button is-small is-rounded' %>
   </div>
 </div>
