@@ -2,17 +2,19 @@
   <div class="media">
     <div class="media-left">
       <figure class="image is-48x48">
-        <img src="https://bulma.io/assets/images/placeholders/96x96.png" alt="Placeholder image" />
+        <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/96x96.png" alt="Placeholder image" />
       </figure>
     </div>
-    <div class="media-content">
-      <p class="title is-5">
-        <%= post.account.display_name %>
-      </p>
-      <p class="subtitle is-7">
-        @<%= post.account.username %>
-      </p>
-    </div>
+    <%= link_to profile_path(post.account) do %>
+      <div class="media-content">
+        <p class="title is-5">
+          <%= post.account.display_name %>
+        </p>
+        <p class="subtitle is-7">
+          @<%= post.account.username %>
+        </p>
+      </div>
+    <% end %>
   </div>
   <div class="content">
     <p><%= post.body %></p>
@@ -20,7 +22,7 @@
   <p class="is-7">
     0 Likes
     |
-    <%= link_to "#{post.replies.count} comments", post_path(post) %>
+    <%= link_to pluralize(post.replies.count, "comment"), post_path(post) %>
   </p>
   <div class="actions">
     <%= link_to "❤️ Like", "#", class: 'button is-small is-rounded' %>
