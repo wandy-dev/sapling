@@ -3,6 +3,10 @@ class AccountsController < ApplicationController
     @account = Account.new(user: current_user)
   end
 
+  def show
+    @account = Account.find(params[:id])
+  end
+
   def create
     @account = Account.new(account_params)
     @account.user = current_user

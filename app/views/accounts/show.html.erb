@@ -1,0 +1,50 @@
+<div class="box block">
+  <div>
+    <img src="https://bulma.io/assets/images/placeholders/128x128.png" class="is-128-128"/>
+    <nav class="level">
+      <div class="level-left">
+        <div>
+          <p class="title is-5">
+            <%= @account.display_name %>
+          </p>
+          <p class="subtitle is-7">
+            @<%= @account.username %>
+          </p>
+        </div>
+      </div>
+
+      <div class="level-right">
+        <button class="button is-info">Follow</button>
+      </div>
+    </nav>
+
+    <p class="subtitle">
+    <%= @account.bio %>
+    </p>
+  </div>
+</div>
+<section class="block">
+  <nav class="level is-mobile">
+    <div class="level-item has-text-centered">
+      <div>
+        <p>Posts</p>
+        <b><%= @account.post_count %></b>
+      </div>
+    </div>
+
+    <div class="level-item has-text-centered">
+      <div>
+        <p>Following</p>
+        <b><%= @account.following %></b>
+      </div>
+    </div>
+
+    <div class="level-item has-text-centered">
+      <div>
+        <p>Followers</p>
+        <b><%= @account.followers %></b>
+      </div>
+    </div>
+  </nav>
+</section>
+<%= turbo_frame_tag "posts", src: posts_path %>

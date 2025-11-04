@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :accounts, as: :profiles
   resources :posts do
     resources :replies
   end
