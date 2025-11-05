@@ -52,6 +52,8 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  gem 'rspec-rails', '~> 8.0.0'
 end
 
 group :development do
@@ -65,4 +67,6 @@ group :test do
   gem "selenium-webdriver"
 end
 
+# Added gems go down here
 gem "devise", "~> 4.9"
+gem "interactor-rails", "~> 2.0"
