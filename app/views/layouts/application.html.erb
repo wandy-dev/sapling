@@ -28,34 +28,34 @@
   <body>
     <div class="container page-content">
       <div class="columns pl-0 pr-0">
-        <div class="column pl-0 pt-0">
-          <div id="notice" class="block">
-            <p class="notice"><%= notice %></p>
-            <p class="alert"><%= alert %></p>
-          </div>
-
+        <div class="column pl-0">
           <div class="navbar-brand">
             <b>
               <%= link_to "🌱 Sapling", root_path %>
             </b>
           </div>
-          <% if user_signed_in? %>
-            <%= turbo_frame_tag "new_post", src: new_post_path, target: "_top" %>
-          <% else %>
-            <h1 class="subtitle">
-              <strike>Social Media</strike>
-              <b>Social Web</b>
-            </h1>
-            <p class=block>
-              This is the social web home of Dev/Test, who have taken control
-              of their online presence using <b><a>🌱 Sapling</a></b>
-            </p>
-            <p>
-              <b><a>🌱 Sapling</a></b> is building for the social web, an antidote to big
-              tech and corporate controlled social media. You can learn more
-              about what that means <a>here</a>
-            </p>
-          <% end %>
+
+          <div class="block">
+            <% if user_signed_in? %>
+              <%= turbo_frame_tag "new_post", src: new_post_path, target: "_top", class: "block" %>
+            <% else %>
+              <h1 class="subtitle">
+                <strike>Social Media</strike>
+                <b>Social Web</b>
+              </h1>
+              <p class=block>
+                This is the social web home of Dev/Test, who have taken control
+                of their online presence using <b><a>🌱 Sapling</a></b>
+              </p>
+              <p>
+                <b><a>🌱 Sapling</a></b> is building for the social web, an antidote to big
+                tech and corporate controlled social media. You can learn more
+                about what that means <a>here</a>
+              </p>
+            <% end %>
+          </div>
+
+          <%= render "shared/flash" %>
         </div>
 
         <div class="column is-half">
@@ -83,7 +83,7 @@
               <%= link_to "Sign Up", new_user_registration_path, class: 'button is-info' %>
               <%= link_to "Log In", new_user_session_path, class: 'button is-light' %>
             <% else %>
-              <%= button_to "Sign Out", destroy_user_session_path, { method: :delete, class: 'button is-warning' } %>
+              <%= button_to "Sign Out", destroy_user_session_path, { method: :delete } %>
             <% end %>
           </div>
         </div>

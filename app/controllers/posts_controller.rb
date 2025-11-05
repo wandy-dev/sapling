@@ -28,7 +28,6 @@ class PostsController < ApplicationController
       if @post.save
         format.html { redirect_to @post, notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
-        format.turbo_stream
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @post.errors, status: :unprocessable_entity }
@@ -54,7 +53,7 @@ class PostsController < ApplicationController
     @post.destroy!
 
     respond_to do |format|
-      format.html { redirect_to posts_path, notice: "Post was successfully destroyed.", status: :see_other }
+      format.html { redirect_to posts_path, notice: "Post was successfully deleted.", status: :see_other }
       format.json { head :no_content }
     end
   end
