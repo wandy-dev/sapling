@@ -1,5 +1,8 @@
 <div class="block">
-  <%= form_with(model: reply, url: post_replies_path(@post), method: :post ) do |form| %>
+  <%= form_with(model: reply, url: post_replies_path(@post),
+                method: :post,
+                data: { controller: "form-reset",
+                        action: "turbo:submit-end->form-reset#reset" }) do |form| %>
     <% if reply.errors.any? %>
       <div style="color: red">
         <h2><%= pluralize(reply.errors.count, "error") %> prohibited this post from being saved:</h2>

@@ -34,8 +34,9 @@
             <p class="alert"><%= alert %></p>
           </div>
 
+          <div class="navbar-brand"><b><a>🌱 Sapling</a></b></div>
           <% if user_signed_in? %>
-            <%= turbo_frame_tag "new_post_frame", src: new_post_path %>
+            <%= turbo_frame_tag "new_post", src: new_post_path, target: "_top" %>
           <% else %>
             <h1 class="subtitle">
               <strike>Social Media</strike>
@@ -58,7 +59,6 @@
         </div>
 
         <div class="column pr-0">
-          <div class="navbar-brand"><b><a>🌱 Sapling</a></b></div>
           <aside class="menu block">
             <p class="menu-label">Feeds</p>
             <ul class="menu-list">
