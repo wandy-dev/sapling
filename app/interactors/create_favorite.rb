@@ -2,14 +2,12 @@
 # how this might fit into an organizer in the future
 class CreateFavorite
   include Interactor
-  delegate :favorite, :account, :status, to: :context
 
   def call
-    if favourite = Favourite.find_by(account: account, status: status)
+    if Favorite.find_by(account: context.account, post: context.post)
       context.fail!(message: "Already Favorited")
     end
-    context.fail! unless favourite = Favourite.create(account: account,
-                                                      status: status)
+    context.favorite = Favorite.create(account: context.account,
+                                        post: context.post)
   end
 end
-

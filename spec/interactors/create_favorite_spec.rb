@@ -1,11 +1,30 @@
-RSpec.describe CreateFavorite, type: :unit do
-  let(:account) { FactoryBot.create(:account) }
-  let(:status) { FactoryBot.create(:status) }
+require "rails_helper"
 
-  subject(:context) { CreateFavorite.call(account: account, status: status) }
+RSpec.describe CreateFavorite, type: :unit do
+  let(:account) { instance_double("Account") }
+  let(:post) { instance_double("Post") }
+  let(:favorite_class) { double("Favorite") }
+  let(:favorite) { instance_double("Favorite",
+                                   "persisted?": true,
+                                   post: post,
+                                   account: account) }
+
+  subject(:context) { described_class.call(account: account, post: post) }
 
   describe ".call" do
-    context "valid credentials" do
+    context "when favorite has not already been created" do
+      before do
+        allow(Favorite).to(
+          receive(:find_by).with(account: account,
+                                 post: post).and_return(nil)
+        )
+
+        allow(Favorite).to(
+          receive(:create).with(account: account,
+                                post: post).and_return(favorite)
+        )
+      end
+
       it "is successful" do
         expect(context).to be_a_success
       end
@@ -15,12 +34,19 @@ RSpec.describe CreateFavorite, type: :unit do
       end
     end
 
-    context "invalid credentials" do
-      xit "is not successful" do
+    context "when favorite has not already been created" do
+      before do
+        allow(Favorite).to(
+          receive(:find_by).with(account: account,
+                                 post: post).and_return(favorite)
+        )
+      end
+
+      it "is not successful" do
         expect(context).to be_a_failure
       end
 
-      xit "distributes notifications" do
+      it "distributes notifications" do
         expect(context.message).to be_present
       end
     end
