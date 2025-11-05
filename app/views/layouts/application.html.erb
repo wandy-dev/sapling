@@ -34,7 +34,11 @@
             <p class="alert"><%= alert %></p>
           </div>
 
-          <div class="navbar-brand"><b><a>🌱 Sapling</a></b></div>
+          <div class="navbar-brand">
+            <b>
+              <%= link_to "🌱 Sapling", root_path %>
+            </b>
+          </div>
           <% if user_signed_in? %>
             <%= turbo_frame_tag "new_post", src: new_post_path, target: "_top" %>
           <% else %>
