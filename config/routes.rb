@@ -1,14 +1,19 @@
 Rails.application.routes.draw do
-  resources :accounts, as: :profiles
+  devise_for :users
+
+  root "home#index"
+
+  resources :accounts, path: :profiles, as: :profiles
+  resources :accounts
+
   resources :posts do
     resources :replies
   end
-  resources :accounts
-  devise_for :users
-  get "up" => "rails/health#show", as: :rails_health_check
-  root "home#index"
+
+  resources :favorites, only: [:create, :show]
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  get "up" => "rails/health#show", as: :rails_health_check
 end

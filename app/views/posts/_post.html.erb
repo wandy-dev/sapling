@@ -21,17 +21,16 @@
   </div>
   <nav class="level">
     <div class="level-left">
-      <div class="actions">
-        <%= link_to "❤️ Like", "#", class: 'button is-small is-rounded' %>
-        <%= link_to "💬  Comment", post_path(post), class: 'button is-small is-rounded' %>
-        <%= link_to "🌐  Share", "#", class: 'button is-small is-rounded' %>
-      </div>
+      <% if user_signed_in? %>
+        <div class="actions">
+          <%= link_to "❤️ Like", favorites_path(account_id: current_user.account, post_id: post), class: 'button is-small is-rounded', data: { turbo_method: :post } %>
+          <%= link_to "💬  Comment", post_path(post), class: 'button is-small is-rounded' %>
+          <%= link_to "🌐  Share", "#", class: 'button is-small is-rounded' %>
+        </div>
+      <% end %>
     </div>
     <div class="level-right">
-      <p class="is-7">
-        0 Likes
-        &#183;
-        <%= link_to pluralize(post.replies.count, "comment"), post_path(post), data: { turbo_frame: '_top' } %>
-      </p>
+      <%= render "posts/interactions", post: post %>
     </div>
+  </nav>
 </div>

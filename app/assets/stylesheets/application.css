@@ -8,6 +8,9 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+body {
+  font-family: serif !important;
+}
 .page-content {
   padding: 20px;
 }

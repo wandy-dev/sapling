@@ -1,0 +1,3 @@
+<%= turbo_stream.replace dom_id(@post, :interactions) do %>
+  <%= render "posts/interactions", post: @post %>
+<% end %>

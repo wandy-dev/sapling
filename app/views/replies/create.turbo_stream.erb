@@ -1,3 +1,7 @@
 <%= turbo_stream.prepend "replies" do %>
   <%= render 'reply', reply: @post %>
 <% end %>
+
+<%= turbo_stream.replace dom_id(@post.in_reply_to, :interactions) do %>
+  <%= render "posts/interactions", post: @post.in_reply_to %>
+<% end %>

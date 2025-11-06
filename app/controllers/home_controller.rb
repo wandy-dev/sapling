@@ -7,6 +7,6 @@ class HomeController < ApplicationController
   private
     def require_user_finished_onboarding
       return false unless user_signed_in?
-      redirect_to new_account_path unless current_user.finished_onboarding?
+      redirect_to new_profile_path unless current_user.finished_onboarding?
     end
 end

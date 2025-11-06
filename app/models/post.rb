@@ -6,6 +6,7 @@ class Post < ApplicationRecord
            foreign_key: 'in_reply_to',
            inverse_of: :in_reply_to,
            dependent: :destroy
+  has_many :favorites
 
   scope :original_post, -> { where(in_reply_to: nil) }
 

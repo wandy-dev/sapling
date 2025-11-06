@@ -66,8 +66,8 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  gem "interactor-rails", "~> 2.0"
 end
 
 # Added gems go down here
 gem "devise", "~> 4.9"
+gem "interactor-rails", "~> 2.0"

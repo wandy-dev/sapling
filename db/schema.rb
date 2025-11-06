@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_05_204625) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_05_220714) do
   create_table "accounts", force: :cascade do |t|
     t.text "bio"
     t.datetime "created_at", null: false
@@ -62,10 +62,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_05_204625) do
   create_table "favorites", force: :cascade do |t|
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
-    t.integer "status_id", null: false
+    t.integer "post_id", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_favorites_on_account_id"
-    t.index ["status_id"], name: "index_favorites_on_status_id"
+    t.index ["post_id"], name: "index_favorites_on_post_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -94,7 +94,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_05_204625) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "favorites", "accounts"
-  add_foreign_key "favorites", "statuses"
+  add_foreign_key "favorites", "posts"
   add_foreign_key "posts", "accounts"
   add_foreign_key "posts", "posts", column: "in_reply_to_id"
 end

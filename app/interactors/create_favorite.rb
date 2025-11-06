@@ -4,10 +4,10 @@ class CreateFavorite
   include Interactor
 
   def call
-    if Favorite.find_by(account: context.account, post: context.post)
+    if ::Favorite.find_by(account: context.account, post: context.post)
       context.fail!(message: "Already Favorited")
     end
-    context.favorite = Favorite.create(account: context.account,
+    context.favorite = ::Favorite.create(account: context.account,
                                         post: context.post)
   end
 end

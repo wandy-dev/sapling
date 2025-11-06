@@ -1,0 +1,9 @@
+<%= turbo_frame_tag dom_id(post, :interactions) do %>
+  <div class="level-right">
+    <p class="is-7">
+    <%= link_to pluralize(post.favorites.count, "favorite"), "#", data: { turbo_frame: '_top' } %>
+    &#183;
+    <%= link_to pluralize(post.replies.count, "comment"), post_path(post), data: { turbo_frame: '_top' } %>
+    </p>
+  </div>
+<% end %>
