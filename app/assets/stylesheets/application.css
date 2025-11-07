@@ -25,3 +25,7 @@ body {
   -webkit-transition: opacity 1000ms linear;
   transition: opacity 1000ms linear;
 }
+
+.image {
+  width: 100%;
+}

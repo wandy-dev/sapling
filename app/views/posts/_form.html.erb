@@ -18,7 +18,15 @@
       <%= form.textarea :body, class: 'textarea card', placeholder: 'What\'s on your mind?' %>
     </div>
     <div class="block">
-      <%= form.file_field :attachments, multiple: true %>
+    </div>
+    <div class="file block">
+      <label class="file-label">
+        <%= form.file_field :attachments, multiple: true, class: "file-input" %>
+        <span class="file-cta">
+          <span class="file-icon">📸</span>
+          <span class="file-label"> Choose a file… </span>
+        </span>
+      </label>
     </div>
 
 
