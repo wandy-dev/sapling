@@ -17,6 +17,10 @@
     <div class="block">
       <%= form.textarea :body, class: 'textarea card', placeholder: 'What\'s on your mind?' %>
     </div>
+    <div class="block">
+      <%= form.file_field :attachments, multiple: true %>
+    </div>
+
 
     <div>
       <%= form.submit class: "button is-info" %>

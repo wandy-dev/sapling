@@ -19,6 +19,21 @@
   <div class="content">
     <p><%= post.body %></p>
   </div>
+  <div class="attachments fixed-grid has-2-cols block">
+    <div class="grid">
+      <% post.attachments.each do |attachment| %>
+        <div class="cell">
+          <% if attachment.representable? %>
+            <%= image_tag attachment.representation(resize_to_limit: [500, 500]), class: "image" %>
+          <% else %>
+            <%= link_to rails_blob_path(attachment, disposition: "attachment") do %>
+              <%= image_tag "placeholder.png", alt: "Download attachment" %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
   <nav class="level">
     <div class="level-left">
       <% if user_signed_in? %>
