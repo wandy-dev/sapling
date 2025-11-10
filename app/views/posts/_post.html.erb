@@ -24,7 +24,11 @@
       <% post.attachments.each do |attachment| %>
         <div class="cell">
           <% if attachment.representable? %>
-            <%= image_tag attachment.representation(resize_to_limit: [500, 500]), class: "image" %>
+            <% if attachment.video? %>
+              <%= video_tag url_for(attachment), controls: true %>
+            <% else %>
+              <%= image_tag attachment.representation(resize_to_limit: [500, 500]), class: "image" %>
+            <% end %>
           <% else %>
             <%= link_to rails_blob_path(attachment, disposition: "attachment") do %>
               <%= image_tag "placeholder.png", alt: "Download attachment" %>

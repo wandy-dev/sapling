@@ -58,16 +58,17 @@ implemented.
 - [x] Reply to posts
 - [x] Favorite posts
 - [x] Community timeline of posts from all users in reverse chronological order
-- [] View videos on posts
-- [] Federated "Global" Timeline
-- [] Follow remote users
-- [] Multitenancy
-- [] Create Events
-- [] RSVP to events
-- [] Polls
-- [] Wishlists
-- [] Cross post to other platforms
-- [] In memory timeline cache
+- [x] View videos on posts
+- [ ] Import from Mastodon
+- [ ] Create Events
+- [ ] RSVP to events
+- [ ] Polls
+- [ ] Wishlists
+- [ ] Federated "Global" Timeline
+- [ ] Follow remote users
+- [ ] Multitenancy
+- [ ] Cross post to other platforms
+- [ ] In memory timeline cache
 
 ### Tech stack
 - [Ruby on Rails](https://rubyonrails.org/) and [hotwire](https://hotwired.dev/) for web-application stack, and perhaps one day native apps
