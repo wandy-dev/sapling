@@ -60,6 +60,7 @@ implemented.
 - [x] Community timeline of posts from all users in reverse chronological order
 - [x] View videos on posts
 - [ ] Import from Mastodon
+- [ ] Progressive web app
 - [ ] Create Events
 - [ ] RSVP to events
 - [ ] Polls
