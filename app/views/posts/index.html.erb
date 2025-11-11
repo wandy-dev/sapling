@@ -1,5 +1,7 @@
 <%= turbo_frame_tag "posts" do %>
   <% if @posts %>
-    <%= render @posts %>
+    <% cache @posts do %>
+      <%= render @posts %>
+    <% end %>
   <% end %>
 <% end %>
