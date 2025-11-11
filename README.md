@@ -59,7 +59,13 @@ implemented.
 - [x] Favorite posts
 - [x] Community timeline of posts from all users in reverse chronological order
 - [x] View videos on posts
-- [ ] Import from Mastodon
+- [ ] Mastodon Importer
+  - [x] Import users
+  - [x] Import accounts
+  - [x] Import posts
+  - [x] Import favorites
+  - [ ] Import media attached to posts
+  - [ ] Import polls
 - [ ] Progressive web app
 - [ ] Create Events
 - [ ] RSVP to events
