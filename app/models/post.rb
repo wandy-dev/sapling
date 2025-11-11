@@ -4,7 +4,7 @@ class Post < ApplicationRecord
 
   has_many :replies,
            class_name: 'Post',
-           foreign_key: 'in_reply_to',
+           foreign_key: 'in_reply_to_id',
            inverse_of: :in_reply_to,
            dependent: :destroy
   has_many :favorites
