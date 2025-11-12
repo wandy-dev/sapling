@@ -65,7 +65,8 @@ implemented. Currently all imports are local instance only unless specified othe
     - [x] username
     - [x] display name
     - [x] note
-    - [ ] avatar
+    - [x] avatar
+    - [ ] Header picture
   - [x] Import favorites
   - [ ] Import polls
 - [ ] Notifications
