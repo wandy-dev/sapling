@@ -1,13 +1,15 @@
 <div class="box is-primary" id="<%= dom_id post %>">
   <div class="media">
     <div class="media-left">
-      <figure class="image is-48x48">
-        <% if post.account.avatar.present? %>
-          <%= image_tag post.account.avatar, class: 'is-rounded' %>
-        <% else %>
-          <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/96x96.png" alt="Placeholder image" />
-        <% end %>
-      </figure>
+      <%= link_to profile_path(post.account), data: { turbo_frame: '_top' } do %>
+        <figure class="image is-48x48">
+          <% if post.account.avatar.present? %>
+            <%= image_tag post.account.avatar, class: 'is-rounded' %>
+          <% else %>
+            <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/96x96.png" alt="Placeholder image" />
+          <% end %>
+        </figure>
+      <% end %>
     </div>
     <%= link_to profile_path(post.account), data: { turbo_frame: '_top' } do %>
       <div class="media-content">
