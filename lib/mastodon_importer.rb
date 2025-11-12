@@ -1,3 +1,5 @@
+require "open-uri"
+
 class MastodonImporter
   attr_reader :backup_path, :mastodon_database, :id_maps
 
@@ -16,6 +18,7 @@ class MastodonImporter
     import_accounts
     import_posts
     import_favorites
+    import_attachments
   ensure
     mastodon_database.cleanup_tmp_database
   end
@@ -28,6 +31,7 @@ class MastodonImporter
     result = mastodon_database.connection.exec("SELECT * FROM users ORDER BY id")
     count = 0
 
+    return if User.first.present?
     result.each do |row|
       user = User.new(
         email: row['email'],
@@ -193,5 +197,50 @@ class MastodonImporter
 
     puts "\r  ✓ Imported #{count} favorites"
     puts "  ⚠ Skipped #{skipped} favorites (referenced non-local content)" if skipped > 0
+  end
+
+  def import_attachments
+    puts "\n→ Importing attachments..."
+
+    # Only import favourites for accounts and statuses we've imported
+    local_account_ids = mastodon_database.connection.exec(
+      "SELECT id FROM accounts WHERE domain IS NULL"
+    ).map { |row| row['id'] }
+
+    return puts "  ✓ No attachments to import" if local_account_ids.empty?
+
+    local_status_ids = mastodon_database.connection.exec(
+      "SELECT id FROM statuses WHERE account_id IN (#{local_account_ids.join(',')}) ORDER BY id"
+    ).map { |row| row['id'] }
+
+    return puts "  ✓ No attachments to import" if local_account_ids.empty?
+
+    result = mastodon_database.connection.exec(
+      "SELECT * FROM media_attachments WHERE status_id IN (#{local_status_ids.join(',')}) ORDER BY id"
+    )
+    count = 0
+    skipped = 0
+
+    result.each do |row|
+      old_status_id = row['status_id'].to_i
+
+      new_post_id = @id_maps[:posts][old_status_id]
+
+      unless new_post_id
+        skipped += 1
+        next
+      end
+
+      post = Post.find(new_post_id)
+
+      attachment_url = S3Helper.construct_mastodon_url(filename: row['file_file_name'], id: row['id'])
+      post.attachments.attach(io: URI.open(attachment_url), filename: row['file_file_name'])
+
+      count += 1
+      print "\r  Imported #{count} favorites..." if count % 50 == 0
+    end
+
+    puts "\r  ✓ Imported #{count} attachments"
+    puts "  ⚠ Skipped #{skipped} attachments (referenced non-local content)" if skipped > 0
   end
 end

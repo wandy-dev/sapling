@@ -51,21 +51,24 @@ Section Incomplete
 
 ## Features
 A lot of these are far off, if ever, ideas. No guarantee they will be
-implemented.
+implemented. Currently all imports are local instance only unless specified otherwise.
 - [x] Create posts
-- [x] Attach pictures and view to posts
+- [x] Attach pictures posts
 - [x] Attach videos to posts
 - [x] Reply to posts
 - [x] Favorite posts
 - [x] Community timeline of posts from all users in reverse chronological order
-- [x] View videos on posts
 - [ ] Mastodon Importer
   - [x] Import users
-  - [x] Import accounts
   - [x] Import posts
+  - [ ] Import accounts
+    - [x] username
+    - [x] display name
+    - [x] note
+    - [ ] avatar
   - [x] Import favorites
-  - [ ] Import media attached to posts
   - [ ] Import polls
+- [ ] Notifications
 - [ ] Progressive web app
 - [ ] Create Events
 - [ ] RSVP to events
