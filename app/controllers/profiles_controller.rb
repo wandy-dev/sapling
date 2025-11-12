@@ -6,9 +6,12 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    @posts = @account.posts.paginate(
-      page: params[:page], per_page: 3
-    ).order(created_at: :desc)
+    @posts = @account.posts.includes(
+      :favorites,
+      attachments_attachments: [:blob],
+      replies: [:account],
+      account: { avatar_attachment: :blob },
+    ).paginate(page: params[:page], per_page: 3).order(created_at: :desc)
   end
 
   def create
