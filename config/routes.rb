@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  root "home#index"
+  root "posts#index"
 
   resources :accounts, path: :profiles, as: :profiles
   resources :accounts

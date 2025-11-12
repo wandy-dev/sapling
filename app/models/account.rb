@@ -1,6 +1,7 @@
 class Account < ApplicationRecord
   belongs_to :user
   has_many :posts
+  has_one_attached :avatar
 
   def post_count
     self.posts.original_post.count

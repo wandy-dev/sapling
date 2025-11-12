@@ -3,11 +3,11 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.original_post.includes(
-      :account,
       :favorites,
-      :attachments_attachments,
+      attachments_attachments: [:blob],
+      account: { avatar_attachment: :blob },
       replies: [:account]
-    ).order(created_at: :desc)
+    ).order(created_at: :desc).paginate(page: params[:page], per_page: 3)
   end
 
   # GET /posts/1 or /posts/1.json

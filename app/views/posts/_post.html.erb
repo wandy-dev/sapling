@@ -2,7 +2,11 @@
   <div class="media">
     <div class="media-left">
       <figure class="image is-48x48">
-        <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/96x96.png" alt="Placeholder image" />
+        <% if post.account.avatar.present? %>
+          <%= image_tag post.account.avatar, class: 'is-rounded' %>
+        <% else %>
+          <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/96x96.png" alt="Placeholder image" />
+        <% end %>
       </figure>
     </div>
     <%= link_to profile_path(post.account), data: { turbo_frame: '_top' } do %>

@@ -75,6 +75,10 @@ class MastodonImporter
         created_at: row['created_at'],
         updated_at: row['updated_at']
       )
+      if row['avatar_file_name'].present?
+        avatar_url = S3Helper.mastodon_account_avatar_url(filename: row['avatar_file_name'], id: row['id'])
+        account.avatar.attach(io: URI.open(avatar_url), filename: row['avatar_file_name'])
+      end
 
       @id_maps[:accounts][row['id'].to_i] = account.id
       count += 1
@@ -233,11 +237,11 @@ class MastodonImporter
 
       post = Post.find(new_post_id)
 
-      attachment_url = S3Helper.construct_mastodon_url(filename: row['file_file_name'], id: row['id'])
+      attachment_url = S3Helper.mastodon_media_attachment_url(filename: row['file_file_name'], id: row['id'])
       post.attachments.attach(io: URI.open(attachment_url), filename: row['file_file_name'])
 
       count += 1
-      print "\r  Imported #{count} favorites..." if count % 50 == 0
+      print "\r  Imported #{count} attachments..." if count % 50 == 0
     end
 
     puts "\r  ✓ Imported #{count} attachments"

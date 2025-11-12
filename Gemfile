@@ -72,6 +72,7 @@ end
 gem "devise", "~> 4.9"
 gem "interactor-rails", "~> 2.0"
 gem "ruby-vips", "~> 2.2"
+gem 'will_paginate', '~> 4.0'
 
 # Postgres for mastodon import
 gem "pg"
