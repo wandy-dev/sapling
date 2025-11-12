@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   root "posts#index"
 
-  resources :accounts, path: :profiles, as: :profiles
+  resources :accounts, path: :profiles, as: :profiles, controller: :profiles
   resources :accounts
 
   resources :posts do

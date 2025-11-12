@@ -61,4 +61,8 @@
     </div>
   </nav>
 </section>
-<%= turbo_frame_tag "posts", src: posts_path %>
+<%= turbo_frame_tag "posts", src: profile_path(@account, format: :turbo_stream) %>
+
+<% if @posts.next_page %>
+  <%= turbo_frame_tag "load_more", src: profile_path(@account, page: @posts.next_page, format: :turbo_stream), loading: :lazy %>
+<% end %>
