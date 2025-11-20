@@ -1,0 +1,23 @@
+@use "bulma";
+
+body {
+ font-family: serif !important;
+}
+.page-content {
+  padding: 20px;
+}
+
+.notice {
+  color: green;
+}
+
+.alert {
+  color: red;
+  opacity: 1;
+  -webkit-transition: opacity 1000ms linear;
+  transition: opacity 1000ms linear;
+}
+
+.image {
+  width: 100%;
+}
