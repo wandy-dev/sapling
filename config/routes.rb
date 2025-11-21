@@ -1,14 +1,17 @@
 Rails.application.routes.draw do
   devise_for :users
-
   root "landing#index"
+
+  resources :posts do
+    resources :replies
+  end
+
   constraints subdomain: /.*/ do
     resources :accounts, path: :profiles, as: :profiles, controller: :profiles
     resources :accounts
 
-    resources :posts do
-      resources :replies
-    end
+    resources :posts, path: :community, only: :index
+    resources :posts, path: :following, only: :index
 
     resources :favorites, only: [:create, :show]
   end

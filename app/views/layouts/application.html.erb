@@ -63,14 +63,13 @@
           <aside class="menu block">
             <p class="menu-label">Feeds</p>
             <ul class="menu-list">
-              <li class="has-background-light"><a>Following</a></li>
-              <li class="has-background-light"><a>Community</a></li>
-              <li class="has-background-light"><a>Global</a></li>
+              <li><%= link_to "Community", community_path, class: "has-background-light" %></li>
+              <li><%= link_to "Global", posts_url(subdomain: nil), class: "has-background-light" %></li>
             </ul>
             <% if user_signed_in? %>
               <p class="menu-label">Management</p>
               <ul class="menu-list">
-                <li><a>Preferences</a></li>
+                <li><a class="has-background-light">Preferences</a></li>
               </ul>
             <% end %>
           </aside>
