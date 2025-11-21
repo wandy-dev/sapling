@@ -1,7 +1,7 @@
 <p style="color: green"><%= notice %></p>
 <%= link_to "Back", root_path, class: 'button is-small block' %>
 
-<%= render @post %>
+<%= render @post, user: current_user %>
 <%= render "replies/reply_form", in_reply_to: @post, reply: Post.new %>
 
 <div class="content">

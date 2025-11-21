@@ -1,13 +1,24 @@
 class PostsController < ApplicationController
+  include CommunitySubdomain
   before_action :set_post, only: %i[ show edit update destroy ]
 
   def index
-    @posts = Post.original_post.includes(
+    @posts = Post.community(request.subdomain).original_post.includes(
       :favorites,
       attachments_attachments: [:blob],
       account: { avatar_attachment: :blob },
       replies: [:account]
     ).order(created_at: :desc).paginate(page: params[:page], per_page: 3)
+
+    # We need this because rails favors text/vnd.turbo-stream.html which we use
+    # for infinite scrolling, but breaks redirects
+    respond_to do |format|
+      if request.headers["Turbo-Frame"].present?
+        format.turbo_stream
+      else
+        format.html
+      end
+    end
   end
 
   # GET /posts/1 or /posts/1.json
