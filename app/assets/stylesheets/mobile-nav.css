@@ -1,0 +1,22 @@
+.mobile-nav {
+  position: fixed;
+  z-index: 3;
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  align-items: center;
+  justify-content: space-around;
+  display: grid;
+  grid-auto-flow: column;
+  box-shadow: var(--bulma-shadow);
+}
+
+.top {
+  top: 0;
+  justify-content: space-between !important;
+}
+
+.bottom {
+  bottom: 0;
+  font-size: 1.3em;
+}

@@ -25,8 +25,8 @@
 
   <body>
     <div class="container page-content">
-      <div class="columns pl-0 pr-0">
-        <div class="column pl-0">
+      <div class="columns is-desktop">
+        <div class="column pl-0 is-hidden-touch">
           <div class="navbar-brand">
             <b>
               <%= link_to "🌱 Sapling", root_path %>
@@ -35,7 +35,9 @@
 
           <div class="block">
             <% if user_signed_in? %>
-              <%= turbo_frame_tag "new_post", src: new_post_path, target: "_top", class: "block" %>
+              <div class="is-hidden-touch">
+                <%= turbo_frame_tag "new_post", src: new_post_path, target: "_top", class: "block" %>
+              </div>
             <% else %>
               <h1 class="subtitle">
                 <strike>Social Media</strike>
@@ -55,11 +57,11 @@
           <%= render "shared/flash" %>
         </div>
 
-        <div class="column is-half">
+        <div class="column is-three-fifths-desktop">
           <%= yield %>
         </div>
 
-        <div class="column pr-0">
+        <div class="column pr-0 is-hidden-touch">
           <aside class="menu block">
             <p class="menu-label">Feeds</p>
             <ul class="menu-list">
@@ -84,6 +86,22 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="mobile-nav top is-hidden-desktop">
+      <div class="level-left navbar-brand">
+        <b>
+          <%= link_to "🌱 Sapling", root_path %>
+        </b>
+      </div>
+      <div class="level-left">
+      </div>
+    </div>
+    <div class="mobile-nav bottom is-hidden-desktop">
+      <div><%= link_to "🏠", community_path %></div>
+      <div><%= link_to "🌎", posts_url(subdomain: nil) %></div>
+      <div><%= link_to "➕", new_post_path %></div>
+      <div><%= link_to "🔎", "#" %></div>
+      <div><%= link_to "⚙️", "#" %></div>
     </div>
   </body>
 </html>
