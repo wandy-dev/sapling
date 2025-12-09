@@ -35,7 +35,7 @@ class Import::Mastodon::Attachments < Import::Base
     attach_file(post, row)
 
     @count += 1
-    print_progress(50)
+    print_progress(10)
   end
 
   def attach_file(post, row)

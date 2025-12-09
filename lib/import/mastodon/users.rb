@@ -12,7 +12,10 @@ class Import::Mastodon::Users < Import::Base
 
     result.each do |row|
       user = create_user(row)
-      id_mapper.store(:users, row['account_id'], user.id)
+      id_mapper.store(:users, row['id'], user.id)
+      # The relationship between accounts and users in sapling is reversed from
+      # mastodon
+      id_mapper.store(:accounts_to_users, row['account_id'], user.id)
       @count += 1
       print_progress
     end

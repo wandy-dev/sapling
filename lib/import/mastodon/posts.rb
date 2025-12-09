@@ -26,7 +26,8 @@ class Import::Mastodon::Posts < Import::Base
   def import_post(row)
     new_account_id = id_mapper.get(:accounts, row['account_id'])
 
-    unless new_account_id
+    # TODO: if we implement boosts we need to update this
+    if new_account_id.nil? || row['reblog_of_id'].present?
       @skipped += 1
       return
     end

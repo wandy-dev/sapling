@@ -2,6 +2,7 @@ class Import::PostgresDatabase
   attr_reader :tmp_db_name, :backup_path
 
   def initialize(service, backup_path)
+    @service = service
     @tmp_db_name = "#{service}_import_#{Time.now.to_i}"
     @backup_path = backup_path
     setup_tmp_database
@@ -30,7 +31,7 @@ class Import::PostgresDatabase
   end
 
   def load_backup_into_tmp_db
-    puts "\n→ Loading #{service.titleize} backup into temporary database..."
+    puts "\n→ Loading #{@service.titleize} backup into temporary database..."
     db_config = ActiveRecord::Base.connection_db_config.configuration_hash
 
     cmd = [
