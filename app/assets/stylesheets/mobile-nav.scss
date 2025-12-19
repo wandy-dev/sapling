@@ -5,7 +5,6 @@
   height: 50px;
   background-color: white;
   align-items: center;
-  justify-content: space-around;
   display: grid;
   grid-auto-flow: column;
   box-shadow: var(--bulma-shadow);
@@ -13,10 +12,13 @@
 
 .top {
   top: 0;
-  justify-content: space-between !important;
+  padding-left: 15px;
+  padding-right: 15px;
+  justify-content: space-between;
 }
 
 .bottom {
   bottom: 0;
   font-size: 1.3em;
+  justify-content: space-around;
 }

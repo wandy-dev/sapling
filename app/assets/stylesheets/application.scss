@@ -1,8 +1,9 @@
 @use "bulma";
+@use "mobile-nav";
+@use "profile";
 @use "bulma_sass/utilities/mixins";
 
 body {
-  font-family: serif !important;
   overflow: auto;
   height: 100%;
   @include mixins.touch {
@@ -16,12 +17,7 @@ html {
 }
 
 .page-content {
-  @include mixins.desktop {
-    padding: 20px;
-  }
-  @include mixins.touch {
-    padding: 5px;
-  }
+  padding: 20px;
 }
 
 .navbar-brand {
