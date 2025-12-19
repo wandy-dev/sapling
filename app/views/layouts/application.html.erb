@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="has-background-light">
   <head>
-    <title><%= content_for(:title) || "Sapling" %></title>
+    <title><%= content_for(:title) || "Sapli.ng" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Sapling">
+    <meta name="application-name" content="Sapli.ng">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -25,17 +25,19 @@
 
   <body>
     <div class="container page-content">
-      <div class="columns pl-0 pr-0">
-        <div class="column pl-0">
+      <div class="columns is-desktop">
+        <div class="column pl-0 is-hidden-touch">
           <div class="navbar-brand">
             <b>
-              <%= link_to "🌱 Sapling", root_path %>
+              <%= link_to "🌱 Sapli.ng", root_path %>
             </b>
           </div>
 
           <div class="block">
             <% if user_signed_in? %>
-              <%= turbo_frame_tag "new_post", src: new_post_path, target: "_top", class: "block" %>
+              <div class="is-hidden-touch">
+                <%= turbo_frame_tag "new_post", src: new_post_path, target: "_top", class: "block" %>
+              </div>
             <% else %>
               <h1 class="subtitle">
                 <strike>Social Media</strike>
@@ -43,10 +45,10 @@
               </h1>
               <p class=block>
                 This is the social web home of Dev/Test, who have taken control
-                of their online presence using <b><a>🌱 Sapling</a></b>
+                of their online presence using <b><a>🌱 Sapli.ng</a></b>
               </p>
               <p>
-                <b><a>🌱 Sapling</a></b> is building for the social web, an antidote to big
+                <b><a>🌱 Sapli.ng</a></b> is building for the social web, an antidote to big
                 tech and corporate controlled social media. You can learn more
                 about what that means <a>here</a>
               </p>
@@ -55,11 +57,11 @@
           <%= render "shared/flash" %>
         </div>
 
-        <div class="column is-half">
+        <div class="column is-three-fifths-desktop">
           <%= yield %>
         </div>
 
-        <div class="column pr-0">
+        <div class="column pr-0 is-hidden-touch">
           <aside class="menu block">
             <p class="menu-label">Feeds</p>
             <ul class="menu-list">
@@ -84,6 +86,28 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="mobile-nav top is-hidden-desktop">
+      <div>
+        <b>
+          <%= link_to "🌱 Sapli.ng", root_path %>
+        </b>
+      </div>
+      <div>
+        <% unless user_signed_in? %>
+          <%= link_to "Sign Up", new_user_registration_path, class: 'button is-info' %>
+          <%= link_to "Log In", new_user_session_path, class: 'button is-light' %>
+        <% else %>
+          <%= button_to "Sign Out", destroy_user_session_path, { method: :delete } %>
+        <% end %>
+      </div>
+    </div>
+    <div class="mobile-nav bottom is-hidden-desktop">
+      <div><%= link_to "🏠", community_path %></div>
+      <div><%= link_to "🌎", posts_url(subdomain: nil) %></div>
+      <div><%= link_to "➕", new_post_path %></div>
+      <div><%= link_to "🔎", "#" %></div>
+      <div><%= link_to "⚙️", "#" %></div>
     </div>
   </body>
 </html>

@@ -1,10 +1,29 @@
 @use "bulma";
+@use "mobile-nav";
+@use "profile";
+@use "bulma_sass/utilities/mixins";
 
 body {
- font-family: serif !important;
+  overflow: auto;
+  height: 100%;
+  @include mixins.touch {
+    padding-top: 50px;
+  }
 }
+
+html {
+  overflow: hidden;
+  height: 100%;
+}
+
 .page-content {
   padding: 20px;
+}
+
+.navbar-brand {
+  @include mixins.touch {
+    padding: 15px;
+  }
 }
 
 .notice {
