@@ -1,13 +1,14 @@
 class Import::IdMapper
-  def initialize
-    @maps = Hash.new { |h, k| h[k] = {} }
+  def store(type, old_id, new_id, source='mastodon')
+    Import::IdMapping.new(source: source,
+                          source_type: type,
+                          source_id: old_id,
+                          target_id: new_id)
   end
 
-  def store(type, old_id, new_id)
-    @maps[type][old_id.to_i] = new_id
-  end
-
-  def get(type, old_id)
-    @maps[type][old_id.to_i]
+  def get(type, old_id, source='mastodon')
+    Import::IdMapping.find_by(source: source,
+                              source_type: type,
+                              source_id: old_id)&.target_id
   end
 end
