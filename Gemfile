@@ -71,7 +71,7 @@ end
 # Added gems go down here
 gem "devise", "~> 4.9"
 gem "interactor-rails", "~> 2.0"
-gem "ruby-vips", "~> 2.2"
+gem "ruby-vips", "~> 2.3"
 gem 'will_paginate', '~> 4.0'
 gem "bulma-rails", "~> 1.0.0"
 
