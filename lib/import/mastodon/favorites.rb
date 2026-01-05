@@ -26,7 +26,10 @@ class Import::Mastodon::Favorites < Import::Base
       return
     end
 
-    return if Favorite.exists?(account_id: new_account_id, post_id: new_post_id)
+    if Favorite.exists?(account_id: new_account_id, post_id: new_post_id)
+      @skipped += 1
+      return
+    end
 
     Favorite.create!(
       account_id: new_account_id,

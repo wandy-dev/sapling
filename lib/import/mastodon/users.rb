@@ -3,14 +3,12 @@ class Import::Mastodon::Users < Import::Base
     "Importing users..."
   end
 
-  def should_skip_import?
-    User.first.present?
-  end
-
   def perform_import
     result = database.connection.exec("SELECT * FROM users ORDER BY id")
 
     result.each do |row|
+      next if should_skip_record?(:users, row['id'])
+
       user = create_user(row)
       id_mapper.store(:users, row['id'], user.id)
       # The relationship between accounts and users in sapling is reversed from

@@ -31,6 +31,8 @@ class Import::Mastodon::Attachments < Import::Base
       return
     end
 
+    next if should_skip_record?(:attachments, row['id'])
+
     post = Post.find(new_post_id)
     attach_file(post, row)
 
@@ -44,5 +46,10 @@ class Import::Mastodon::Attachments < Import::Base
       id: row['id']
     )
     post.attachments.attach(io: URI.open(attachment_url), filename: row['file_file_name'])
+    # We're not storing the id as the line above does not return the attachment
+    # itself but an array of ActionDispatch::Http::UploadedFile objects. We also
+    # don't really need to keep track of these IDs as far as I know. We just
+    # need to keep track of which ones have already been imported
+    id_mapper.store(:attachments, row['id'], true)
   end
 end

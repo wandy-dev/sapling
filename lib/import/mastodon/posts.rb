@@ -32,6 +32,8 @@ class Import::Mastodon::Posts < Import::Base
       return
     end
 
+    next if should_skip_record?(:posts, row['id'])
+
     post = create_post(row, new_account_id)
     id_mapper.store(:posts, row['id'], post.id)
 
