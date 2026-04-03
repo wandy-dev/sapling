@@ -1,11 +1,18 @@
 class Seeder
   class << self
-    def create_user(email:, password:)
+    def create_community(name:, custom_domain: nil)
+      Community.find_or_create_by!(name: name) do |community|
+        community.custom_domain = custom_domain
+      end
+    end
+
+    def create_user(email:, password:, community: nil)
+      community ||= Community.first || create_community(name: 'main')
       user = User.new
       user.email = email
       user.encrypted_password = password
       user.password = password
-      user.community = Community.new(name: 'asdf')
+      user.community = community
       user.save!
       user
     end
