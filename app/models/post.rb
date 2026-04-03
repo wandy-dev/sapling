@@ -9,6 +9,8 @@ class Post < ApplicationRecord
            dependent: :destroy
   has_many :favorites
   has_many_attached :attachments
+  has_many :community_posts
+  has_many :communities, through: :community_posts
 
   # I need to choose how I want to handle references to user like the like
   # button before we can broadcast from the model so this is a future goal
@@ -19,8 +21,8 @@ class Post < ApplicationRecord
   scope :original_post, -> { where(in_reply_to: nil) }
   scope :community, ->(community) do
     if community.present?
-      joins(account: :user)
-        .where(users: { community: Community.find_by(name: community) })
+      joins(:community_posts)
+        .where(community_posts: { community: community })
     else
       Post.all
     end

@@ -58,15 +58,10 @@ implemented. Currently all imports are local instance only unless specified othe
 - [x] Reply to posts
 - [x] Favorite posts
 - [x] Community timeline of posts from all users in reverse chronological order
-- [ ] Mastodon Importer
+- [ ] Mastodon Importer (local only)
   - [x] Import users
   - [x] Import posts
-  - [ ] Import accounts
-    - [x] username
-    - [x] display name
-    - [x] note
-    - [x] avatar
-    - [ ] Header picture
+  - [x] Import accounts
   - [x] Import favorites
   - [ ] Import polls
 - [ ] Notifications
