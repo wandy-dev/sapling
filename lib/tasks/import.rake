@@ -15,11 +15,6 @@ namespace :import do
 
     require_relative '../import/mastodon'
 
-    # puts "Starting Mastodon import from #{backup_path}"
-    # puts "WARNING: This will import users, accounts, posts, and favorites."
-    # puts "Press Ctrl+C to cancel, or Enter to continue..."
-    # STDIN.gets
-
     importer = Import::Mastodon.new(backup_path)
     importer.run
 

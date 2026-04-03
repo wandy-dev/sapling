@@ -11,6 +11,8 @@ class Import::Mastodon::Accounts < Import::Base
     result.each do |row|
       next unless (new_user_id = id_mapper.get(:accounts_to_users, row['id']))
 
+      next if should_skip_record?(:accounts, row['id'])
+
       account = create_account(row, new_user_id)
       attach_avatar(account, row) if row['avatar_file_name'].present?
       attach_header(account, row) if row['header_file_name'].present?

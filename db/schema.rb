@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_20_191309) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_22_200049) do
   create_table "accounts", force: :cascade do |t|
     t.text "bio"
     t.datetime "created_at", null: false
@@ -72,6 +72,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_20_191309) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_favorites_on_account_id"
     t.index ["post_id"], name: "index_favorites_on_post_id"
+  end
+
+  create_table "import_id_mappings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "source"
+    t.string "source_id"
+    t.string "source_type"
+    t.string "target_id"
+    t.datetime "updated_at", null: false
   end
 
   create_table "posts", force: :cascade do |t|

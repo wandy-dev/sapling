@@ -31,6 +31,14 @@ class Import::Base
     false
   end
 
+  def should_skip_record?(key, id)
+    previous_import_id = id_mapper.get(key, id)
+    if previous_import_id.present?
+      @skipped += 1
+      next
+    end
+  end
+
   def early_exit_message
     puts "  ✓ No #{entity_name} to import"
   end
@@ -41,7 +49,7 @@ class Import::Base
 
   def print_summary
     puts "\r  ✓ Imported #{count} #{entity_name}"
-    puts "  ⚠ Skipped #{skipped} #{entity_name} (referenced non-local content)" if skipped > 0
+    puts "  ⚠ Skipped #{skipped} #{entity_name}" if skipped > 0
   end
 
   def print_progress(frequency = 10)
