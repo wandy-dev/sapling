@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "posts", src: posts_path(format: :turbo_stream) %>
 
 <% if @posts.next_page %>
-  <%= turbo_frame_tag "load_more", src: posts_path(page: @posts.next_page, format: :turbo_stream), loading: :lazy %>
+  <%= turbo_frame_tag "load_more" %>
 <% end %>

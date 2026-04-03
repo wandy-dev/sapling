@@ -1,6 +1,7 @@
 class LandingController < ApplicationController
   before_action :go_home
   def index
+    @administrator = Account.first
   end
 
   private
