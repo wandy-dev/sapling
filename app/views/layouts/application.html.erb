@@ -111,11 +111,6 @@
         <div class="column pr-0 is-hidden-touch">
           <% if user_signed_in? %>
             <aside class="menu block">
-              <p class="menu-label">Feeds</p>
-              <ul class="menu-list">
-                <li><%= link_to "Community", community_path, class: "has-background-light" %></li>
-                <li><%= link_to "Global", posts_url(subdomain: nil), class: "has-background-light" %></li>
-              </ul>
                 <p class="menu-label">Management</p>
                 <ul class="menu-list">
                   <li><a class="has-background-light">Preferences</a></li>
