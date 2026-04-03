@@ -39,6 +39,9 @@ Rails.application.configure do
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "example.com" }
 
+  # Dynamic host authorization for multi-tenant community support
+  config.hosts << ->(host) { Community.all_hosts.include?(host) }
+
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 

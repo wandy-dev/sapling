@@ -1,7 +1,11 @@
 require 'seeder'
 
+# Create communities
+community_a = Seeder.create_community(name: 'community-a', custom_domain: 'mycommunity.com')
+community_b = Seeder.create_community(name: 'community-b')
+
 # Create a user with 3 posts
-user = Seeder.create_user(email: 'asdf@asdf.com', password: 'asdfasdf')
+user = Seeder.create_user(email: 'asdf@asdf.com', password: 'asdfasdf', community: community_a)
 account = Seeder.create_account(user: user)
 
 ["Hello world", "here's a post", "and another one"].each do |post_body|
@@ -22,7 +26,7 @@ post = Seeder.create_post(
 )
 
 # create a user that likes to interact with posts
-user = Seeder.create_user(email: 'commenter@asdf.com', password: 'asdfasdf')
+user = Seeder.create_user(email: 'commenter@asdf.com', password: 'asdfasdf', community: community_b)
 account = Seeder.create_account(user: user)
 
 Seeder.create_post(

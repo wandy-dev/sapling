@@ -1,10 +1,9 @@
 class PostsController < ApplicationController
-  include CommunitySubdomain
   before_action :set_post, only: %i[ show edit update destroy ]
   before_action :go_landing!
 
   def index
-    @posts = Post.community(request.subdomain).original_post.includes(
+    @posts = Post.community(Current.community).original_post.includes(
       :favorites,
       attachments_attachments: [:blob],
       account: { avatar_attachment: :blob },
