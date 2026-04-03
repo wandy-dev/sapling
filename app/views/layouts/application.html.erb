@@ -39,19 +39,66 @@
                 <%= turbo_frame_tag "new_post", src: new_post_path, target: "_top", class: "block" %>
               </div>
             <% else %>
-              <h1 class="subtitle">
-                <strike>Social Media</strike>
-                <b>Social Web</b>
-              </h1>
-              <p class=block>
-                This is the social web home of Dev/Test, who have taken control
-                of their online presence using <b><a>🌱 Sapli.ng</a></b>
-              </p>
-              <p>
-                <b><a>🌱 Sapli.ng</a></b> is building for the social web, an antidote to big
-                tech and corporate controlled social media. You can learn more
-                about what that means <a>here</a>
-              </p>
+              <section class="block">
+                <b>Welcome to the social web home of <%= request.domain %></b>
+                <p>Powered by <a>🌱 Sapli.ng</a></p>
+              </section>
+
+              <div id="accounts" class='grid is-col-min-3'>
+                <% Account.first(9).each do |account| %>
+                  <% if account.avatar.present? %>
+                    <%= link_to profile_path(account), data: { turbo_frame: '_top' } do %>
+                      <figure class="image is-64x64">
+                        <%= image_tag account.avatar, class: 'is-rounded profile-pic' %>
+                      </figure>
+                    <% end %>
+                  <% else %>
+                    <figure class="image is-64x64">
+                      <img class="is-rounded profile-pic" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpng.pngtree.com%2Fpng-clipart%2F20231020%2Foriginal%2Fpngtree-sapling-sprouting-from-soil-png-image_13384337.png&f=1&nofb=1&ipt=167fdeb9aa070f27c6f3b9cacd5be1aa2b56bd8be3105b32d5e1ddc7f37ebb9e" alt="Placeholder image" />
+                    </figure>
+                  <% end %>
+                <% end %>
+              </div>
+
+              <div class="box">
+                <div class="block">
+                  <h4 class="has-text-centered"><span>Administered by:</span></h4>
+                  <div class="media">
+                    <div class="media-left">
+                      <%= link_to profile_path(@administrator), data: { turbo_frame: '_top' } do %>
+                        <% if @administrator.avatar.present? %>
+                          <figure class="image is-48x48">
+                            <%= image_tag @administrator.avatar, class: 'is-rounded' %>
+                          </figure>
+                        <% else %>
+                          <figure class="image is-48x48">
+                            <img
+                              src="https://bulma.io/assets/images/placeholders/64x64.png"
+                              alt="Placeholder image"
+                              class="is-rounded"
+                            />
+                          </figure>
+                        <% end %>
+                      <% end %>
+                    </div>
+                    <%= link_to profile_path(@administrator), data: { turbo_frame: '_top' } do %>
+                      <div class="media-content">
+                        <p class="title is-5">
+                          <%= @administrator.display_name %>
+                        </p>
+                        <p class="subtitle is-7">
+                          @<%= @administrator.username %>
+                        </p>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="block">
+                  <h4><span>Contact:</span></h4>
+                  <a href="mailto:<%= @administrator.user.email %>"><%= @administrator.user.email %></a>
+                </div>
+              </div>
+
             <% end %>
           </div>
           <%= render "shared/flash" %>
@@ -62,23 +109,25 @@
         </div>
 
         <div class="column pr-0 is-hidden-touch">
-          <aside class="menu block">
-            <p class="menu-label">Feeds</p>
-            <ul class="menu-list">
-              <li><%= link_to "Community", community_path, class: "has-background-light" %></li>
-              <li><%= link_to "Global", posts_url(subdomain: nil), class: "has-background-light" %></li>
-            </ul>
-            <% if user_signed_in? %>
-              <p class="menu-label">Management</p>
+          <% if user_signed_in? %>
+            <aside class="menu block">
+              <p class="menu-label">Feeds</p>
               <ul class="menu-list">
-                <li><a class="has-background-light">Preferences</a></li>
+                <li><%= link_to "Community", community_path, class: "has-background-light" %></li>
+                <li><%= link_to "Global", posts_url(subdomain: nil), class: "has-background-light" %></li>
               </ul>
-            <% end %>
-          </aside>
+                <p class="menu-label">Management</p>
+                <ul class="menu-list">
+                  <li><a class="has-background-light">Preferences</a></li>
+                </ul>
+            </aside>
+          <% end %>
 
           <div class="buttons">
             <% unless user_signed_in? %>
-              <%= link_to "Sign Up", new_user_registration_path, class: 'button is-info' %>
+              <% if false %>
+                <%= link_to "Sign Up", new_user_registration_path, class: 'button is-info' %>
+              <% end %>
               <%= link_to "Log In", new_user_session_path, class: 'button is-light' %>
             <% else %>
               <%= button_to "Sign Out", destroy_user_session_path, { method: :delete } %>

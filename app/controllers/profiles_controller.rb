@@ -1,4 +1,5 @@
 class ProfilesController < ApplicationController
+  before_action :go_landing!
   before_action :set_account, only: :show
 
   def new

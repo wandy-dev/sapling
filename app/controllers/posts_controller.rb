@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   include CommunitySubdomain
   before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :go_landing!
 
   def index
     @posts = Post.community(request.subdomain).original_post.includes(
@@ -12,13 +13,6 @@ class PostsController < ApplicationController
 
     # We need this because rails favors text/vnd.turbo-stream.html which we use
     # for infinite scrolling, but breaks redirects
-    respond_to do |format|
-      if request.headers["Turbo-Frame"].present?
-        format.turbo_stream
-      else
-        format.html
-      end
-    end
   end
 
   # GET /posts/1 or /posts/1.json
