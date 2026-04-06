@@ -14,15 +14,27 @@ account = Seeder.create_account(user: user)
     post_body: post_body,
     post_attachments: [
       File.open("#{Rails.root}/app/assets/images/onesandzeros.jpg")
-    ]
+    ],
+    community: community_a
   )
 
   Seeder.create_favorite(account: account, post: post)
 end
 
+# Create 100 posts under community_a
+20.times do |i|
+  post = Seeder.create_post(
+    account: account,
+    post_body: "Post number #{i + 1}",
+    community: community_a,
+    created_at: Time.now - i.second
+  )
+end
+
 post = Seeder.create_post(
   account: account,
-  post_body: "Post with replies"
+  post_body: "Post with replies",
+  community: community_a
 )
 
 # create a user that likes to interact with posts

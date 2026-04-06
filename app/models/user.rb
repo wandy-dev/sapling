@@ -12,4 +12,8 @@ class User < ApplicationRecord
   def finished_onboarding?
     self.account.present?
   end
+
+  def member_of?(community_id)
+    memberships.exists?(community_id: community_id) || self.community_id == community_id
+  end
 end

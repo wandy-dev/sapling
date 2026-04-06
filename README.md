@@ -57,7 +57,13 @@ implemented. Currently all imports are local instance only unless specified othe
 - [x] Attach videos to posts
 - [x] Reply to posts
 - [x] Favorite posts
-- [x] Community timeline of posts from all users in reverse chronological order
+- [ ] Communities
+  - [x] Community memberships
+  - [x] Primary community (accounts belong to one community)
+  - [ ] Create communities
+  - [ ] Post visibility options
+  - [ ] Community white labeling
+  - [ ] Community federation
 - [ ] Mastodon Importer (local only)
   - [x] Import users
   - [x] Import posts
@@ -70,9 +76,9 @@ implemented. Currently all imports are local instance only unless specified othe
 - [ ] RSVP to events
 - [ ] Polls
 - [ ] Wishlists
-- [ ] Federated "Global" Timeline
 - [ ] Follow remote users
-- [ ] Multitenancy
+- [ ] Federated "Global" Timeline
+- [ ] Custom subdomain, or domain for communities
 - [ ] Cross post to other platforms
 - [ ] In memory timeline cache
 
