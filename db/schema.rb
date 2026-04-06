@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_03_180811) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_05_143755) do
   create_table "accounts", force: :cascade do |t|
     t.text "bio"
     t.datetime "created_at", null: false
@@ -109,8 +109,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_03_180811) do
     t.datetime "created_at", null: false
     t.integer "in_reply_to_id"
     t.datetime "updated_at", null: false
+    t.integer "visibility", default: 0, null: false
     t.index ["account_id"], name: "index_posts_on_account_id"
     t.index ["in_reply_to_id"], name: "index_posts_on_in_reply_to_id"
+    t.index ["visibility"], name: "index_posts_on_visibility"
   end
 
   create_table "users", force: :cascade do |t|

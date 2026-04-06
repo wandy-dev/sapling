@@ -1,17 +1,23 @@
+require 'will_paginate/array'
+
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
   before_action :go_landing!
 
   def index
-    @posts = Post.community(Current.community).original_post.includes(
+    # we need to paginate the ids from the cache rather than the posts so that
+    # we only hydrate the amount of posts required by the request.
+    @unhydrated_posts = TimelineService.get_community_timeline(
+      Current.community,
+      current_user
+    ).paginate(page: params[:page], per_page: 10)
+
+    @posts = Post.includes(
       :favorites,
       attachments_attachments: [:blob],
       account: { avatar_attachment: :blob },
       replies: [:account]
-    ).order(created_at: :desc).paginate(page: params[:page], per_page: 3)
-
-    # We need this because rails favors text/vnd.turbo-stream.html which we use
-    # for infinite scrolling, but breaks redirects
+    ).find(@unhydrated_posts)
   end
 
   # GET /posts/1 or /posts/1.json
