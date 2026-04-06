@@ -5,10 +5,11 @@ class PostsController < ApplicationController
   before_action :go_landing!
 
   def index
-    # we need to paginate the ids from the cache rather than the posts so that
-    # we only hydrate the amount of posts required by the request.
+    @communities = Community.all
+    @selected_community = params[:community] ? Community.find_by(id: params[:community]) : nil
+
     @unhydrated_posts = TimelineService.get_community_timeline(
-      Current.community,
+      @selected_community,
       current_user
     ).paginate(page: params[:page], per_page: 10)
 

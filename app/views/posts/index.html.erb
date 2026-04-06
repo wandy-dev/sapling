@@ -1,4 +1,18 @@
-<%= turbo_frame_tag "posts", src: posts_path(format: :turbo_stream) %>
+<div class="box">
+  <%= form_with url: posts_path, method: :get, data: { turbo_action: "replace" } do |f| %>
+    <div class="field has-addons">
+      <div class="control is-expanded">
+        <div class="select is-fullwidth">
+          <%= f.select :community,
+            options_from_collection_for_select(@communities, :id, :name, @selected_community&.id),
+            { include_blank: "All Communities" }, { onchange: "this.form.submit()" } %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= turbo_frame_tag "posts", src: posts_path(format: :turbo_stream, community: @selected_community) %>
 
 <% if @unhydrated_posts.next_page %>
   <%= turbo_frame_tag "load_more" %>

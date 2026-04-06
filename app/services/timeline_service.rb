@@ -29,6 +29,7 @@ class TimelineService
     private
 
     def cache_key(community, user)
+      return "timeline:local" if community.nil?
       user&.member_of?(community.id) ? visibility_community_only_key(community) : visibility_public_key(community)
     end
 
@@ -41,16 +42,20 @@ class TimelineService
     end
 
     def fetch_community_from_db(community, user)
-      base_query = Post.original_post
-                       .joins(:community_posts)
-                       .where(community_posts: { community: community })
-                       .order(created_at: :desc)
+      if community.nil?
+        base_query = Post.original_post.order(created_at: :desc)
+      else
+        base_query = Post.original_post
+                         .joins(:community_posts)
+                         .where(community_posts: { community: community })
+                         .order(created_at: :desc)
+      end
 
-      if user&.member_of?(community.id)
+      if user&.member_of?(community&.id) && community.present?
         base_query.pluck(:id, :created_at)
       else
         base_query.visibility_public.pluck(:id, :created_at)
-      end.map { |id, created_at| [id, created_at.to_f] }
+      end.map { |id, created_at| [id, created_at.to_i] }
     end
   end
 end
