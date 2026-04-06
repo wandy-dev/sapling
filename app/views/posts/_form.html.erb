@@ -17,9 +17,24 @@
     <div class="block">
       <%= form.textarea :body, class: 'textarea card', placeholder: 'What\'s on your mind?' %>
     </div>
-    <div class="block">
-    </div>
-    <div class="file block">
+      <% post.errors.full_messages_for(:communities).each do |message| %>
+        <p class="help is-danger"><%= message %></p>
+      <% end %>
+      <div class="box switch-wrapper">
+        <% current_user.all_communities.each do |community| %>
+          <div>
+            <label class="switch">
+              <%= check_box_tag "post[community_ids][]", community.id,
+                  post.persisted? ? post.community_ids.include?(community.id) :
+                                    community.id == current_user.community_id %>
+              <span class="slider round"></span>
+            </label>
+            <span><%= community.name %></span>
+          </div>
+        <% end %>
+        <%= hidden_field_tag "post[community_ids][]", "" %>
+      </div>
+    <div class="file">
       <label class="file-label">
         <%= form.file_field :attachments, multiple: true, class: "file-input" %>
         <span class="file-cta">
@@ -28,6 +43,7 @@
         </span>
       </label>
     </div>
+
 
 
     <div>

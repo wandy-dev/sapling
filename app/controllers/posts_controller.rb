@@ -5,10 +5,11 @@ class PostsController < ApplicationController
   before_action :go_landing!
 
   def index
-    # we need to paginate the ids from the cache rather than the posts so that
-    # we only hydrate the amount of posts required by the request.
+    @communities = Community.all
+    @selected_community = params[:community] ? Community.find_by(id: params[:community]) : nil
+
     @unhydrated_posts = TimelineService.get_community_timeline(
-      Current.community,
+      @selected_community,
       current_user
     ).paginate(page: params[:page], per_page: 10)
 
@@ -28,10 +29,12 @@ class PostsController < ApplicationController
   # GET /posts/new
   def new
     @post = Post.new
+    @user_communities = current_user.all_communities
   end
 
   # GET /posts/1/edit
   def edit
+    @user_communities = current_user.all_communities
   end
 
   # POST /posts or /posts.json
@@ -42,6 +45,11 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
+        if params[:post][:community_ids].present?
+          params[:post][:community_ids].each do |cid|
+            CommunityPost.find_or_create_by!(post: @post, community_id: cid)
+          end
+        end
         format.html { redirect_to @post, notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
         format.turbo_stream
@@ -56,6 +64,13 @@ class PostsController < ApplicationController
   def update
     respond_to do |format|
       if @post.update(post_params)
+        if params[:post][:community_ids].present?
+          selected = params[:post][:community_ids].map(&:to_i)
+          @post.community_posts.where.not(community_id: selected).destroy_all
+          selected.each do |cid|
+            CommunityPost.find_or_create_by!(post: @post, community_id: cid)
+          end
+        end
         format.html { redirect_to @post, notice: "Post was successfully updated.", status: :see_other }
         format.json { render :show, status: :ok, location: @post }
       else
@@ -83,6 +98,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:body, :in_reply_to_id, :attachments)
+      params.require(:post).permit(:body, :in_reply_to_id, :attachments, community_ids: [])
     end
 end

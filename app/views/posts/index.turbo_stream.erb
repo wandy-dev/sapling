@@ -4,6 +4,6 @@
 
 <% if @unhydrated_posts.next_page %>
   <%= turbo_stream.replace "load_more" do %>
-    <%= turbo_frame_tag "load_more", src: posts_path(page: @unhydrated_posts.next_page, format: :turbo_stream), loading: :lazy %>
+    <%= turbo_frame_tag "load_more", src: posts_path(page: @unhydrated_posts.next_page, community: @selected_community, format: :turbo_stream), loading: :lazy %>
   <% end %>
 <% end %>
