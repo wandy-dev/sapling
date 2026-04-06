@@ -16,4 +16,8 @@ class User < ApplicationRecord
   def member_of?(community_id)
     memberships.exists?(community_id: community_id) || self.community_id == community_id
   end
+
+  def all_communities
+    (communities.to_a << community).uniq
+  end
 end

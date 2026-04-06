@@ -12,7 +12,12 @@ class Post < ApplicationRecord
   has_many :community_posts, dependent: :destroy
   has_many :communities, through: :community_posts
 
-  enum :visibility, { visibility_public: 0, community_only: 1 }, default: :visibility_public
+  validates :body, presence: true
+  validates :communities, presence: { message: "must be selected" }
+
+  enum :visibility, do
+    public: 0, community_only: 1
+  end, default: :visibility_public, prefix: :visibility
 
   after_create_commit :append_to_timeline
   after_destroy_commit :remove_from_timeline
@@ -32,8 +37,10 @@ class Post < ApplicationRecord
   # end
 
   scope :original_post, -> { where(in_reply_to: nil) }
-  scope :visibility_public, -> { where(visibility: :public) }
-  scope :visibility_community_only, -> { where(visibility: :community_only) }
+  scope :visibility_public, -> { where(visibility: :visibility_public) }
+  scope :visibility_community_only, -> do
+    where(visibility: :visibility_community_only)
+  end
 
   scope :community, ->(community) do
     if community.present?
