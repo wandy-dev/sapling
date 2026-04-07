@@ -8,7 +8,7 @@ class PostsController < ApplicationController
     @communities = Community.all
     @selected_community = params[:community] ? Community.find_by(id: params[:community]) : nil
 
-    @unhydrated_posts = TimelineService.get_community_timeline(
+    @unhydrated_posts = TimelineService.get_timeline(
       @selected_community,
       current_user
     ).paginate(page: params[:page], per_page: 10)
@@ -98,6 +98,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:body, :in_reply_to_id, :attachments, community_ids: [])
+      params.require(:post).permit(:body, :in_reply_to_id, :attachments, :visibility, community_ids: [])
     end
 end
