@@ -33,8 +33,8 @@ class TimelineService
 
       # TODO: replace inline with background job
       # fan out to all users local timelines
-      User.joins(:community_memberships)
-        .where(community_memberships: { community: post.communities })
+      User.joins(:memberships)
+        .where(memberships: { community: post.communities })
         .distinct
         .each do |member|
           Feed.new(user_local_key(member)).append(post.id, post.created_at.to_i)
@@ -49,8 +49,8 @@ class TimelineService
 
       # TODO: replace inline with background job
       # fan out to all users local timelines
-      User.joins(:community_memberships)
-          .where(community_memberships: { community: post.communities })
+      User.joins(:memberships)
+          .where(memberships: { community: post.communities })
           .distinct
           .each do |member|
             Feed.new(user_local_key(member)).remove(post.id)

@@ -17,10 +17,13 @@
     <div class="block">
       <%= form.textarea :body, class: 'textarea card', placeholder: 'What\'s on your mind?' %>
     </div>
+    <div class="block select is-fullwidth">
+      <%= form.select :visibility, Post.visibilities.keys.map { |v| [v.titleize, v] }, include_blank: false %>
+    </div>
       <% post.errors.full_messages_for(:communities).each do |message| %>
         <p class="help is-danger"><%= message %></p>
       <% end %>
-      <div class="box switch-wrapper">
+      <div class="box">
         <% current_user.all_communities.each do |community| %>
           <div>
             <label class="switch">

@@ -15,9 +15,8 @@ class Post < ApplicationRecord
   validates :body, presence: true
   validates :communities, presence: { message: "must be selected" }
 
-  enum :visibility, do
-    public: 0, community_only: 1
-  end, default: :visibility_public, prefix: :visibility
+  enum :visibility, { public: 0, community_only: 1 },
+    default: :visibility_public, prefix: :visibility
 
   after_create_commit :append_to_timeline
   after_destroy_commit :remove_from_timeline
