@@ -39,7 +39,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # Set domain to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "wandy.dev" }
+  config.action_mailer.default_url_options = { host: "localhost" }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
