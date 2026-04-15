@@ -2,11 +2,10 @@ require 'rails_helper'
 
 RSpec.describe TimelineService do
   let(:user) { create(:user) }
+  let(:feed_instance) { instance_double(Feed, append: nil, remove: nil) }
+  let(:community) { create(:community) }
 
   describe ".get_timeline" do
-    let(:community) { create(:community) }
-    let(:feed_instance) { instance_double(Feed) }
-
     after do
       TimelineService.get_timeline(community, user)
     end
@@ -15,6 +14,8 @@ RSpec.describe TimelineService do
       allow(user).to receive(
         :member_of?
       ).with(community.id).and_return(membership)
+      allow(Feed).to receive(:new).and_return(feed_instance)
+      allow(feed_instance).to receive(:fetch)
     end
 
     context "when user is a member of community" do
@@ -22,7 +23,7 @@ RSpec.describe TimelineService do
 
       it "fetches from Feed with community private key" do
         expect(Feed).to receive(:new).with(
-          "timeline:community:#{community.id}:public"
+          "timeline:community:#{community.id}:private"
         ).and_return(feed_instance)
 
         expect(feed_instance).to receive(:fetch)
@@ -34,7 +35,7 @@ RSpec.describe TimelineService do
 
       it "fetches from Feed with community public key" do
         expect(Feed).to receive(:new).with(
-          "timeline:community:#{community.id}:private"
+          "timeline:community:#{community.id}:public"
         ).and_return(feed_instance)
 
         expect(feed_instance).to receive(:fetch)
@@ -43,30 +44,40 @@ RSpec.describe TimelineService do
   end
 
   describe ".append_post" do
-    let(:community) { create(:community) }
-
     before do
       Post.skip_callback(:commit, :after, :append_to_timeline)
-      allow(Feed).to receive(:new).and_return(
-        instance_double(Feed, append: nil, remove: nil)
-      )
+      allow(Feed).to receive(:new).and_return(feed_instance)
+      allow(feed_instance).to receive(:append)
     end
 
     after do
       Post.set_callback(:commit, :after, :append_to_timeline)
     end
 
+    it "appends to member's local timelines" do
+      post = create(:post, communities: [community])
+      create(:membership, user: user, community: community)
+
+      expect(Feed).to receive(:new).with(
+        "timeline:user:#{user.id}:local"
+      ).and_return(feed_instance)
+      expect(feed_instance).to receive(:append)
+
+      TimelineService.append_post(post)
+    end
+
     it "appends to public and local timeline for each community" do
       post = create(:post, communities: [community])
 
-      TimelineService.append_post(post)
-
-      expect(Feed).to have_received(:new).with(
+      expect(Feed).to receive(:new).with(
         "timeline:community:#{community.id}:public"
       )
-      expect(Feed).to have_received(:new).with(
-        "timeline:local"
+      expect(Feed).to receive(:new).with(
+        "timeline:community:#{community.id}:private"
       )
+      expect(feed_instance).to receive(:append)
+
+      TimelineService.append_post(post)
     end
 
     context "with community_only post" do
@@ -75,11 +86,12 @@ RSpec.describe TimelineService do
       end
 
       it "does not append to public timeline" do
-        TimelineService.append_post(post)
-
-        expect(Feed).not_to have_received(:new).with(
+        expect(Feed).not_to receive(:new).with(
           "timeline:community:#{community.id}:public"
         )
+        expect(feed_instance).to receive(:append)
+
+        TimelineService.append_post(post)
       end
     end
   end
@@ -111,9 +123,6 @@ RSpec.describe TimelineService do
       )
       expect(Feed).to have_received(:new).with(
         "timeline:community:#{community.id}:public"
-      )
-      expect(Feed).to have_received(:new).with(
-        "timeline:user:#{user.id}:local"
       )
     end
   end
