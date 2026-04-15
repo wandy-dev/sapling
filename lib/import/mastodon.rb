@@ -2,6 +2,7 @@ require "open-uri"
 
 class Import::Mastodon
   attr_reader :backup_path, :mastodon_database, :id_mapper, :community
+  cattr_accessor :currently_importing, default: false
 
   def initialize(backup_path)
     @backup_path = backup_path
@@ -10,10 +11,12 @@ class Import::Mastodon
   end
 
   def run
+    self.class.currently_importing = true
     community = Community.create(name: "default")
     @community=Community.find_by(name: "default")
     importers.map(&:import)
   ensure
+    self.class.currently_importing = false
     mastodon_database.cleanup_tmp_database
   end
 

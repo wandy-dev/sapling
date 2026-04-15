@@ -31,6 +31,11 @@ class Import::Mastodon::Users < Import::Base
       community: community
     )
     user.save(validate: false)
+
+    Membership.create!(
+      user: user,
+      community: community
+    )
     user
   end
 end

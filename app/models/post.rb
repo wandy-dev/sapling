@@ -21,6 +21,8 @@ class Post < ApplicationRecord
   after_destroy_commit :remove_from_timeline
 
   def append_to_timeline
+    return if Import::Mastodon.currently_importing
+
     if self.in_reply_to.nil?
       TimelineService.append_post(self)
     end
