@@ -1,5 +1,5 @@
 class Import::Mastodon::Posts < Import::Base
-  def initialize(database, id_mapper)
+  def initialize(database, id_mapper, community)
     super
     @reply_updates = []
   end
@@ -32,7 +32,7 @@ class Import::Mastodon::Posts < Import::Base
       return
     end
 
-    next if should_skip_record?(:posts, row['id'])
+    return if should_skip_record?(:posts, row['id'])
 
     post = create_post(row, new_account_id)
     id_mapper.store(:posts, row['id'], post.id)
@@ -49,7 +49,8 @@ class Import::Mastodon::Posts < Import::Base
       body: row['text'] || row['content'] || '',
       in_reply_to_id: nil,
       created_at: row['created_at'],
-      updated_at: row['updated_at']
+      updated_at: row['updated_at'],
+      communities: [community]
     )
   end
 

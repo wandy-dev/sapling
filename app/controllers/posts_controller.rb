@@ -6,7 +6,9 @@ class PostsController < ApplicationController
 
   def index
     @communities = Community.all
-    @selected_community = params[:community] ? Community.find_by(id: params[:community]) : nil
+    @selected_community = if params[:community]
+                            Community.find_by(id: params[:community])
+                          end
 
     @unhydrated_posts = TimelineService.get_timeline(
       @selected_community,
