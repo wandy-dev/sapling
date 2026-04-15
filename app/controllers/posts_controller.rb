@@ -7,8 +7,8 @@ class PostsController < ApplicationController
   def index
     @communities = Community.all
     @selected_community = if params[:community]
-                            Community.find_by(id: params[:community])
-                          end
+      Community.find_by(id: params[:community])
+    end
 
     @unhydrated_posts = TimelineService.get_timeline(
       @selected_community,
@@ -52,7 +52,8 @@ class PostsController < ApplicationController
             CommunityPost.find_or_create_by!(post: @post, community_id: cid)
           end
         end
-        format.html { redirect_to @post, notice: "Post was successfully created." }
+        format.html {
+ redirect_to @post, notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
         format.turbo_stream
       else
@@ -73,7 +74,9 @@ class PostsController < ApplicationController
             CommunityPost.find_or_create_by!(post: @post, community_id: cid)
           end
         end
-        format.html { redirect_to @post, notice: "Post was successfully updated.", status: :see_other }
+        format.html {
+ redirect_to @post, notice: "Post was successfully updated.",
+status: :see_other }
         format.json { render :show, status: :ok, location: @post }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -87,7 +90,9 @@ class PostsController < ApplicationController
     @post.destroy!
 
     respond_to do |format|
-      format.html { redirect_to posts_path, notice: "Post was successfully deleted.", status: :see_other }
+      format.html {
+ redirect_to posts_path, notice: "Post was successfully deleted.",
+status: :see_other }
       format.json { head :no_content }
     end
   end
@@ -100,6 +105,7 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:body, :in_reply_to_id, :attachments, :visibility, community_ids: [])
+      params.require(:post).permit(:body, :in_reply_to_id, :attachments,
+:visibility, community_ids: [])
     end
 end

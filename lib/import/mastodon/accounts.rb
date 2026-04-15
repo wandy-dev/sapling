@@ -41,7 +41,8 @@ class Import::Mastodon::Accounts < Import::Base
       filename: row['avatar_file_name'],
       id: row['id']
     )
-    account.avatar.attach(io: URI.open(avatar_url), filename: row['avatar_file_name'])
+    account.avatar.attach(io: URI.open(avatar_url),
+filename: row['avatar_file_name'])
   end
 
   def attach_header(account, row)
@@ -49,6 +50,7 @@ class Import::Mastodon::Accounts < Import::Base
       filename: row['header_file_name'],
       id: row['id']
     )
-    account.header.attach(io: URI.open(header_url), filename: row['header_file_name'])
+    account.header.attach(io: URI.open(header_url),
+filename: row['header_file_name'])
   end
 end

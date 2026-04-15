@@ -9,7 +9,8 @@ class Import::Mastodon::Favorites < Import::Base
 
   def perform_import
     result = database.connection.exec(
-      "SELECT * FROM favourites WHERE account_id IN (#{in_clause(local_account_ids)}) ORDER BY id"
+      "SELECT * FROM favourites " \
+      "WHERE account_id IN (#{in_clause(local_account_ids)}) ORDER BY id"
     )
 
     result.each { |row| import_favorite(row) }

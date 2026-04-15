@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "Controller Concerns", type: :controller do
   describe "CommunityResolver" do
-    let!(:community_a) { create(:community, name: "community_a", custom_domain: "custom.com") }
+    let!(:community_a) {
+ create(:community, name: "community_a", custom_domain: "custom.com") }
 
     controller do
       def index

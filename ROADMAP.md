@@ -48,3 +48,9 @@
 - [ ] Wishlists
 - [ ] Secret Santa
 - [ ] ActivityPub federation
+
+### Issues
+
+- A standardized interface for creating posts and associated objects doesn't currently exist
+- Seeding the database doesn't create replys
+- Errors on post create replace the timeline with a new post form with the error message from the controller

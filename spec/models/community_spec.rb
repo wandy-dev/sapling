@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Community, type: :model do
   describe "#all_hosts" do
-    let!(:community_a) { create(:community, name: "community_a", custom_domain: "custom.com") }
+    let!(:community_a) {
+ create(:community, name: "community_a", custom_domain: "custom.com") }
     let!(:community_b) { create(:community, name: "community_b") }
 
     it "includes custom domains" do

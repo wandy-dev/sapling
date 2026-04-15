@@ -1,7 +1,27 @@
 # Omakase Ruby styling for Rails
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 
+Layout/SpaceAroundEqualsInParameterDefault:
+  Enabled: false
 Layout/SpaceInsideArrayLiteralBrackets:
   Enabled: false
 Layout/LineLength:
   Max: 80
+  Enabled: true
+Style/StringLiterals:
+  Enabled: false
+AllCops:
+  Exclude:
+    - './db/migrate/*'
+    - './spec/rails_helper.rb'
+    - './spec/spec_helper.rb'
+    - './test/test_helper.rb'
+    - './config/ci.rb'
+    - './config/puma.rb'
+    - './config/initializers/filter_parameter_logging.rb'
+    - './config/initializers/content_security_policy.rb'
+    - './config/initializers/devise.rb'
+    - './config/environments/test.rb'
+    - './config/environments/development.rb'
+    - './config/environments/production.rb'
+    - './Rakefile'

@@ -26,9 +26,11 @@ class Seeder
       post.attachments.attach(io: attachment, filename: filename)
     end
 
-    def create_post(account:, post_body:, post_attachments: nil, in_reply_to: nil, community: nil)
-      post = account.posts.build(body: post_body, in_reply_to: in_reply_to)
-      post.communities << community if community.present?
+    def create_post(account:, post_body:, post_attachments: nil,
+                    in_reply_to: nil, community: nil, created_at: nil)
+      post = account.posts.build(body: post_body, in_reply_to: in_reply_to,
+                                 created_at: created_at || Time.now)
+      post.communities << (community || Community.first)
       post.save
       if post_attachments.present?
         post_attachments.each do |attachment|
