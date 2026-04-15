@@ -12,17 +12,18 @@ class Post < ApplicationRecord
   has_many :community_posts, dependent: :destroy
   has_many :communities, through: :community_posts
 
-  validates :body, presence: true
   validates :communities, presence: { message: "must be selected" }
 
   enum :visibility, { public: 0, community_only: 1 },
-    default: :visibility_public, prefix: :visibility
+    default: :public, prefix: :visibility
 
   after_create_commit :append_to_timeline
   after_destroy_commit :remove_from_timeline
 
   def append_to_timeline
-    TimelineService.append_post(self)
+    if self.in_reply_to.nil?
+      TimelineService.append_post(self)
+    end
   end
 
   def remove_from_timeline
@@ -36,7 +37,7 @@ class Post < ApplicationRecord
   # end
 
   scope :original_post, -> { where(in_reply_to: nil) }
-  scope :visibility_public, -> { where(visibility: :visibility_public) }
+  scope :visibility_public, -> { where(visibility: :public) }
   scope :visibility_community_only, -> do
     where(visibility: :visibility_community_only)
   end

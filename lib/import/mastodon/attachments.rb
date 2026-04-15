@@ -31,7 +31,7 @@ class Import::Mastodon::Attachments < Import::Base
       return
     end
 
-    next if should_skip_record?(:attachments, row['id'])
+    return if should_skip_record?(:attachments, row['id'])
 
     post = Post.find(new_post_id)
     attach_file(post, row)

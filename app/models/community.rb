@@ -8,10 +8,8 @@ class Community < ApplicationRecord
   def self.all_hosts
     hosts = []
 
-    # Custom domains
     hosts += where.not(custom_domain: nil).pluck(:custom_domain)
 
-    # Subdomains (e.g., family.wandy.dev)
     main_domain = ActionMailer::Base.default_url_options[:host]
     if main_domain.present?
       where.not(name: nil).pluck(:name).each do |name|

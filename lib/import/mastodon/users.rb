@@ -27,7 +27,8 @@ class Import::Mastodon::Users < Import::Base
       encrypted_password: row['encrypted_password'],
       remember_created_at: row['remember_created_at'],
       created_at: row['created_at'],
-      updated_at: row['updated_at']
+      updated_at: row['updated_at'],
+      community: community
     )
     user.save(validate: false)
     user

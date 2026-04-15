@@ -1,9 +1,10 @@
 class Import::Base
-  attr_reader :database, :id_mapper, :count, :skipped
+  attr_reader :database, :id_mapper, :count, :skipped, :community
 
-  def initialize(database, id_mapper)
+  def initialize(database, id_mapper, community=nil)
     @database = database
     @id_mapper = id_mapper
+    @community = community
     @count = 0
     @skipped = 0
   end
@@ -35,8 +36,9 @@ class Import::Base
     previous_import_id = id_mapper.get(key, id)
     if previous_import_id.present?
       @skipped += 1
-      next
+      return true
     end
+    false
   end
 
   def early_exit_message

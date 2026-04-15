@@ -15,8 +15,8 @@ class Import::PostgresDatabase
     @temp_conn ||= PG.connect(
       host: db_config[:host] || 'localhost',
       port: db_config[:port] || 5432,
-      user: "postgres",
-      password: db_config[:password],
+      user: ENV['PGUSER'] || "postgres",
+      password: ENV['PGPASSWORD'] || db_config[:password],
       dbname: tmp_db_name
     )
   end
@@ -81,8 +81,8 @@ class Import::PostgresDatabase
     conn = PG.connect(
       host: db_config[:host] || 'localhost',
       port: db_config[:port] || 5432,
-      user: 'postgres',
-      password: db_config[:password],
+      user: ENV['PGUSER'] || 'postgres',
+      password: ENV['PGPASSWORD'] || db_config[:password],
       dbname: 'postgres'
     )
   end
