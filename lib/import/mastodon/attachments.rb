@@ -9,7 +9,8 @@ class Import::Mastodon::Attachments < Import::Base
 
   def perform_import
     result = database.connection.exec(
-      "SELECT * FROM media_attachments WHERE status_id IN (#{in_clause(local_status_ids)}) ORDER BY id"
+      "SELECT * FROM media_attachments " \
+      "WHERE status_id IN (#{in_clause(local_status_ids)}) ORDER BY id"
     )
 
     result.each { |row| import_attachment(row) }
@@ -19,7 +20,8 @@ class Import::Mastodon::Attachments < Import::Base
 
   def local_status_ids
     @local_status_ids ||= database.connection.exec(
-      "SELECT id FROM statuses WHERE account_id IN (#{in_clause(local_account_ids)}) ORDER BY id"
+      "SELECT id FROM statuses " \
+      "WHERE account_id IN (#{in_clause(local_account_ids)}) ORDER BY id"
     ).map { |row| row['id'] }
   end
 
@@ -45,7 +47,10 @@ class Import::Mastodon::Attachments < Import::Base
       filename: row['file_file_name'],
       id: row['id']
     )
-    post.attachments.attach(io: URI.open(attachment_url), filename: row['file_file_name'])
+    post.attachments.attach(
+      io: URI.open(attachment_url),
+      filename: row['file_file_name']
+    )
     # We're not storing the id as the line above does not return the attachment
     # itself but an array of ActionDispatch::Http::UploadedFile objects. We also
     # don't really need to keep track of these IDs as far as I know. We just

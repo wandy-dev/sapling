@@ -11,7 +11,9 @@ module CommunityResolver
       community = Community.find_by(custom_domain: request.host)
 
       # Priority 2: Subdomain fallback
-      community ||= Community.find_by(name: request.subdomain) if request.subdomain.present?
+      if request.subdomain.present?
+        community ||= Community.find_by(name: request.subdomain)
+      end
 
       # Set current community - nil means "all communities" (for example.com)
       Current.community = community

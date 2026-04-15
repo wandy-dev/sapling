@@ -52,7 +52,7 @@ class Import::PostgresDatabase
     system(env, *cmd)
 
     unless $?.success?
-      raise "Failed to restore backup. Make sure pg_restore is installed and accessible."
+      raise "Failed to restore backup. Make sure pg_restore is installed."
     end
 
     puts "  ✓ Backup loaded successfully"
@@ -64,7 +64,10 @@ class Import::PostgresDatabase
     puts "\n→ Cleaning up temporary database..."
 
     # Terminate connections to temp database
-    postgres_connection.exec("SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '#{tmp_db_name}'")
+    postgres_connection.exec(
+      "SELECT pg_terminate_backend(pid) FROM pg_stat_activity " \
+      "WHERE datname = '#{tmp_db_name}'"
+    )
     postgres_connection.exec("DROP DATABASE IF EXISTS #{tmp_db_name}")
     postgres_connection.close
 

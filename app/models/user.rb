@@ -14,7 +14,9 @@ class User < ApplicationRecord
   end
 
   def member_of?(community_id)
-    memberships.exists?(community_id: community_id) || self.community_id == community_id
+    memberships.exists?(
+      community_id: community_id
+    ) || self.community_id == community_id
   end
 
   def all_communities

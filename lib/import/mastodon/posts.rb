@@ -14,7 +14,8 @@ class Import::Mastodon::Posts < Import::Base
 
   def perform_import
     result = database.connection.exec(
-      "SELECT * FROM statuses WHERE account_id IN (#{in_clause(local_account_ids)}) ORDER BY id"
+      "SELECT * FROM statuses " \
+      "WHERE account_id IN (#{in_clause(local_account_ids)}) ORDER BY id"
     )
 
     result.each { |row| import_post(row) }
@@ -55,7 +56,8 @@ class Import::Mastodon::Posts < Import::Base
   end
 
   def track_reply_update(post_id, old_reply_to_id)
-    @reply_updates << { post_id: post_id, old_reply_to_id: old_reply_to_id.to_i }
+    @reply_updates << { post_id: post_id,
+old_reply_to_id: old_reply_to_id.to_i }
   end
 
   def update_reply_references
@@ -66,7 +68,9 @@ class Import::Mastodon::Posts < Import::Base
 
     @reply_updates.each do |item|
       if (new_reply_to_id = id_mapper.get(:posts, item[:old_reply_to_id]))
-        Post.where(id: item[:post_id]).update_all(in_reply_to_id: new_reply_to_id)
+        Post.where(
+          id: item[:post_id]
+        ).update_all(in_reply_to_id: new_reply_to_id)
         updated += 1
       end
     end

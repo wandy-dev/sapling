@@ -33,7 +33,9 @@ RSpec.describe Feed, type: :model do
 
     context "when Redis errors" do
       before do
-        allow(redis).to receive(:zrevrange).and_raise(Redis::BaseError.new("connection failed"))
+        allow(redis).to receive(:zrevrange).and_raise(
+          Redis::BaseError.new("connection failed")
+        )
       end
 
       it "falls back to block result" do
@@ -52,7 +54,8 @@ RSpec.describe Feed, type: :model do
       feed.append(1, 1_234_567_890)
       feed.append(2, 1_234_567_891)
 
-      expect(redis.zrange(key, 0, -1, with_scores: true)).to eq([["1", 1_234_567_890], ["2", 1_234_567_891]])
+      expect(redis.zrange(key, 0, -1,
+with_scores: true)).to eq([["1", 1_234_567_890], ["2", 1_234_567_891]])
     end
 
     it "trims to max size" do
