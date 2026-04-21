@@ -86,7 +86,7 @@ additional features, but they are not guaranteed to be worked on.
     - Primary community (accounts belong to one community)
     - Community memberships (accounts belong to one community)
 - Posts
-  - Create posts
+  - Create, edit & delete
   - Attach pictures posts
   - Attach videos to posts
   - Reply to posts
