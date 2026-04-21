@@ -17,8 +17,9 @@ class Post < ApplicationRecord
   enum :visibility, { public: 0, community_only: 1 },
     default: :public, prefix: :visibility
 
+  before_destroy :remove_from_timeline, prepend: true
+
   after_create_commit :append_to_timeline
-  after_destroy_commit :remove_from_timeline
 
   def append_to_timeline
     return if Import::Mastodon.currently_importing
@@ -29,7 +30,7 @@ class Post < ApplicationRecord
   end
 
   def remove_from_timeline
-    TimelineService.remove_post(self)
+    TimelineService.remove_post(self, community_ids)
   end
 
   # I need to choose how I want to handle references to user like the like

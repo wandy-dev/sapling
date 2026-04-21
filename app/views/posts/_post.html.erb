@@ -1,28 +1,49 @@
 <div class="box is-primary" id="<%= dom_id post %>">
-  <div class="media">
-    <div class="media-left">
-      <%= link_to profile_path(post.account), data: { turbo_frame: '_top' } do %>
-        <figure class="image is-48x48">
-          <% if post.account.avatar.present? %>
-            <%= image_tag post.account.avatar, class: 'is-rounded' %>
-          <% else %>
-            <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/96x96.png" alt="Placeholder image" />
-          <% end %>
-        </figure>
+  <nav class="is-flex is-justify-content-space-between is-align-items-flex-start">
+    <article class="media">
+      <figure class="media-left">
+        <%= link_to profile_path(post.account), data: { turbo_frame: '_top' } do %>
+          <div class="image is-48x48">
+            <% if post.account.avatar.present? %>
+              <%= image_tag post.account.avatar, class: 'is-rounded' %>
+            <% else %>
+              <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/96x96.png" alt="Placeholder image" />
+            <% end %>
+          </div>
+        <% end %>
+      </figure>
+      <div class="media-content">
+        <%= link_to profile_path(post.account), data: { turbo_frame: '_top' } do %>
+            <p class="title is-5">
+              <%= post.account.display_name %>
+            </p>
+            <p class="subtitle is-7">
+              @<%= post.account.username %>
+            </p>
+        <% end %>
+      </div>
+    </article>
+    <div>
+      <% if user_signed_in? && current_user.account == post.account %>
+        <div class="dropdown is-right" data-controller="dropdown">
+          <div class="dropdown-trigger">
+            <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu-<%= post.id %>" data-action="click->dropdown#toggle">
+              <span>⋮</span>
+            </button>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu-<%= post.id %>" role="menu" data-dropdown-target="menu">
+            <div class="dropdown-content">
+              <%= link_to "Edit", edit_post_path(post), class: "dropdown-item", data: { turbo_frame: 'compose' } %>
+              <%= turbo_frame_tag dom_id(post) do %>
+                <%= link_to "Delete", post_path(post), class: "dropdown-item has-text-danger", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+              <% end %>
+            </div>
+          </div>
+        </div>
       <% end %>
     </div>
-    <%= link_to profile_path(post.account), data: { turbo_frame: '_top' } do %>
-      <div class="media-content">
-        <p class="title is-5">
-          <%= post.account.display_name %>
-        </p>
-        <p class="subtitle is-7">
-          @<%= post.account.username %>
-        </p>
-      </div>
-    <% end %>
-  </div>
-  <div class="content">
+  </nav>
+  <div>
     <p><%= post.body %></p>
   </div>
   <div class="attachments block">
@@ -44,19 +65,16 @@
       <% end %>
     </div>
   </div>
-  <nav class="level">
-    <div class="level-left">
-      <% if user_signed_in? %>
-        <div class="actions">
-          <%= link_to "❤️ Like", favorites_path(account_id: current_user.account, post_id: post), class: 'button is-small is-rounded', data: { turbo_method: :post } %>
-          <%= link_to "💬  Comment", post_path(post), class: 'button is-small is-rounded' %>
-          <%= link_to "🌐  Share", "#", class: 'button is-small is-rounded' %>
-        </div>
-      <% end %>
-    </div>
-    <div class="level-right">
+  <nav class="is-flex is-justify-content-space-between is-align-items-flex-start">
+    <% if user_signed_in? %>
+      <div class="actions">
+        <%= link_to "❤️ Like", favorites_path(account_id: current_user.account, post_id: post), class: 'button is-small is-rounded', data: { turbo_method: :post } %>
+        <%= link_to "💬  Comment", post_path(post), class: 'button is-small is-rounded' %>
+        <%= link_to "🌐  Share", "#", class: 'button is-small is-rounded' %>
+      </div>
+    <% end %>
       <%= turbo_frame_tag dom_id(post, :interactions) do %>
-        <div class="level-right">
+        <div>
           <p class="is-7">
           <%= link_to pluralize(post.favorites.length, "favorite"), "#", data: { turbo_frame: '_top' } %>
           &#183;

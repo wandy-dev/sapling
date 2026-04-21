@@ -39,10 +39,14 @@ class TimelineService
         .each do |member|
           Feed.new(user_local_key(member)).append(post.id, post.created_at.to_i)
         end
+
+      User.where(community: post.community_ids).distinct.each do |member|
+        Feed.new(user_local_key(member)).append(post.id, post.created_at.to_i)
+      end
     end
 
-    def remove_post(post)
-      post.communities.each do |community|
+    def remove_post(post, community_ids)
+      community_ids.each do |community|
         Feed.new(visibility_community_only_key(community)).remove(post.id)
         Feed.new(visibility_public_key(community)).remove(post.id)
       end
@@ -50,11 +54,15 @@ class TimelineService
       # TODO: replace inline with background job
       # fan out to all users local timelines
       User.joins(:memberships)
-          .where(memberships: { community: post.communities })
+          .where(memberships: { community: community_ids })
           .distinct
           .each do |member|
             Feed.new(user_local_key(member)).remove(post.id)
           end
+
+      User.where(community: post.community_ids).each do |member|
+        Feed.new(user_local_key(member)).remove(post.id)
+      end
     end
 
     private
@@ -64,11 +72,15 @@ class TimelineService
     end
 
     def visibility_community_only_key(community)
-      "timeline:community:#{community.id}:private"
+      id = community.respond_to?(:id) ? community.id : community
+
+      "timeline:community:#{id}:private"
     end
 
     def visibility_public_key(community)
-      "timeline:community:#{community.id}:public"
+      id = community.respond_to?(:id) ? community.id : community
+
+      "timeline:community:#{id}:public"
     end
 
     def fetch_user_local_timeline(user)
