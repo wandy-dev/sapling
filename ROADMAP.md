@@ -1,12 +1,12 @@
 > [!NOTE]
 > The items here are not gauranteed to be worked on. Sapling is in early
-> development and may have issues, this is not product grade software.
+> development and may have issues, this is not production grade software.
 
 - [x] In memory timeline cache
 - [ ] Communities
   - [ ] Community domains
     - [x] Each community can have it's own subdomain, allowing users to own their social presense
-    - [ ] Communities can have custom domains offering a greater level of control
+    - [x] Communities can have custom domains offering a greater level of control
     - [ ] User accounts are scoped to subdomain/domain
     - [ ] Users can sign up on subdomain/domain and have their primary community set
     - [ ] Community white labeling
@@ -23,8 +23,9 @@
   - [ ] Community memberships
     - [x] Primary community (accounts belong to one community)
     - [x] Community memberships (accounts belong to one community)
+    - [x] Post visibility options
     - [ ] Create communities
-    - [ ] Post visibility options
+    - [ ] Invite members
     - [ ] Community white labeling
     - [ ] Community federation
 - [x] Posts
