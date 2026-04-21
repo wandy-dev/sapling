@@ -68,6 +68,7 @@ RSpec.describe TimelineService do
 
     it "appends to public and local timeline for each community" do
       post = create(:post, communities: [community])
+      create(:membership, user: user, community: community)
 
       expect(Feed).to receive(:new).with(
         "timeline:community:#{community.id}:public"
@@ -75,6 +76,9 @@ RSpec.describe TimelineService do
       expect(Feed).to receive(:new).with(
         "timeline:community:#{community.id}:private"
       )
+      expect(Feed).to receive(:new).with(
+        "timeline:user:#{user.id}:local"
+      ).and_return(feed_instance)
       expect(feed_instance).to receive(:append)
 
       TimelineService.append_post(post)
