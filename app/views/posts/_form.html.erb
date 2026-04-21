@@ -1,56 +1,55 @@
-<%= turbo_frame_tag "new_post", target: "_top" do %>
-  <%= form_with(model: post,
-                data: { controller: "form-reset",
-                        action: "turbo:submit-end->form-reset#reset" }) do |form| %>
-    <% if post.errors.any? %>
-      <div style="color: red">
-        <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+<%= form_with(model: post,
+              data: { controller: "form-reset",
+                      turbo_frame: 'compose',
+                      action: "turbo:submit-end->form-reset#reset" }) do |form| %>
+  <% if post.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
 
-        <ul>
-          <% post.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <div class="block">
-      <%= form.textarea :body, class: 'textarea card', placeholder: 'What\'s on your mind?' %>
-    </div>
-    <div class="block select is-fullwidth">
-      <%= form.select :visibility, Post.visibilities.keys.map { |v| [v.titleize, v] }, include_blank: false %>
-    </div>
-      <% post.errors.full_messages_for(:communities).each do |message| %>
-        <p class="help is-danger"><%= message %></p>
-      <% end %>
-      <div class="box">
-        <% current_user.all_communities.each do |community| %>
-          <div>
-            <label class="switch">
-              <%= check_box_tag "post[community_ids][]", community.id,
-                  post.persisted? ? post.community_ids.include?(community.id) :
-                                    community.id == current_user.community_id %>
-              <span class="slider round"></span>
-            </label>
-            <span><%= community.name %></span>
-          </div>
+      <ul>
+        <% post.errors.each do |error| %>
+          <li><%= error.full_message %></li>
         <% end %>
-        <%= hidden_field_tag "post[community_ids][]", "" %>
-      </div>
-    <div class="file">
-      <label class="file-label">
-        <%= form.file_field :attachments, multiple: true, class: "file-input" %>
-        <span class="file-cta">
-          <span class="file-icon">📸</span>
-          <span class="file-label"> Choose a file… </span>
-        </span>
-      </label>
-    </div>
-
-
-
-    <div>
-      <%= form.submit class: "button is-info" %>
+      </ul>
     </div>
   <% end %>
+
+  <div class="block">
+    <%= form.textarea :body, class: 'textarea card', placeholder: 'What\'s on your mind?' %>
+  </div>
+  <div class="block select is-fullwidth">
+    <%= form.select :visibility, Post.visibilities.keys.map { |v| [v.titleize, v] }, include_blank: false %>
+  </div>
+    <% post.errors.full_messages_for(:communities).each do |message| %>
+      <p class="help is-danger"><%= message %></p>
+    <% end %>
+    <div class="box">
+      <% current_user.all_communities.each do |community| %>
+        <div>
+          <label class="switch">
+            <%= check_box_tag "post[community_ids][]", community.id,
+                post.persisted? ? post.community_ids.include?(community.id) :
+                                  community.id == current_user.community_id %>
+            <span class="slider round"></span>
+          </label>
+          <span><%= community.name %></span>
+        </div>
+      <% end %>
+      <%= hidden_field_tag "post[community_ids][]", "" %>
+    </div>
+  <div class="file">
+    <label class="file-label">
+      <%= form.file_field :attachments, multiple: true, class: "file-input" %>
+      <span class="file-cta">
+        <span class="file-icon">📸</span>
+        <span class="file-label"> Choose a file… </span>
+      </span>
+    </label>
+  </div>
+
+
+
+  <div>
+    <%= form.submit class: "button is-info" %>
+  </div>
 <% end %>

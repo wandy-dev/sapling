@@ -36,7 +36,7 @@
           <div class="block">
             <% if user_signed_in? %>
               <div class="is-hidden-touch">
-                <%= turbo_frame_tag "new_post", src: new_post_path, target: "_top", class: "block" %>
+                <%= turbo_frame_tag "compose", src: new_post_path, target: "_top", class: "block" %>
               </div>
             <% else %>
               <section class="block">

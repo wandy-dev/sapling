@@ -52,8 +52,9 @@ class PostsController < ApplicationController
             CommunityPost.find_or_create_by!(post: @post, community_id: cid)
           end
         end
-        format.html {
- redirect_to @post, notice: "Post was successfully created." }
+        format.html do
+          redirect_to @post, notice: "Post was successfully created."
+        end
         format.json { render :show, status: :created, location: @post }
         format.turbo_stream
       else
