@@ -29,7 +29,7 @@
     - [ ] Community white labeling
     - [ ] Community federation
 - [x] Posts
-  - [x] Create posts
+  - [x] Create, edit, & delete
   - [x] Attach pictures posts
   - [x] Attach videos to posts
   - [x] Reply to posts
@@ -52,6 +52,3 @@
 
 ### Issues
 
-- A standardized interface for creating posts and associated objects doesn't currently exist
-- Seeding the database doesn't create replys
-- Errors on post create replace the timeline with a new post form with the error message from the controller
