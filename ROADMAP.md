@@ -1,5 +1,5 @@
 > [!NOTE]
-> The items here are not gauranteed to be worked on. Sapling is in early
+> The items here are not guaranteed to be worked on. Sapling is in early
 > development and may have issues, this is not production grade software.
 
 - [x] In memory timeline cache
