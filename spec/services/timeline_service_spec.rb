@@ -120,7 +120,7 @@ RSpec.describe TimelineService do
     it "removes from all timelines" do
       post = create(:post, communities: [community])
 
-      TimelineService.remove_post(post)
+      TimelineService.remove_post(post, [community.id])
 
       expect(Feed).to have_received(:new).with(
         "timeline:community:#{community.id}:private"

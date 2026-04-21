@@ -31,27 +31,25 @@ class PostsController < ApplicationController
   # GET /posts/new
   def new
     @post = Post.new
-    @user_communities = current_user.all_communities
   end
 
   # GET /posts/1/edit
   def edit
-    @user_communities = current_user.all_communities
   end
 
   # POST /posts or /posts.json
   def create
-    @post = Post.new(post_params)
-    @post.account = current_user.account
-    @post.attachments.attach(params[:post][:attachments])
+    result = CreatePost.call(
+      account: current_user.account,
+      post_params: post_params,
+      community_ids: params[:post][:community_ids],
+      attachments: params[:post][:attachments]
+    )
+
+    @post = result.post
 
     respond_to do |format|
-      if @post.save
-        if params[:post][:community_ids].present?
-          params[:post][:community_ids].each do |cid|
-            CommunityPost.find_or_create_by!(post: @post, community_id: cid)
-          end
-        end
+      if result.success?
         format.html do
           redirect_to @post, notice: "Post was successfully created."
         end
@@ -59,41 +57,50 @@ class PostsController < ApplicationController
         format.turbo_stream
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        format.json do
+          render json: result.errors, status: :unprocessable_entity
+        end
       end
     end
   end
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
+    result = EditPost.call(
+      post: @post,
+      post_params: post_params,
+      community_ids: params[:post][:community_ids]&.reject(&:blank?),
+      attachments: params[:post][:attachments]
+    )
+
     respond_to do |format|
-      if @post.update(post_params)
-        if params[:post][:community_ids].present?
-          selected = params[:post][:community_ids].map(&:to_i)
-          @post.community_posts.where.not(community_id: selected).destroy_all
-          selected.each do |cid|
-            CommunityPost.find_or_create_by!(post: @post, community_id: cid)
-          end
+      if result.success?
+        format.html do
+          redirect_to @post, notice: "Post was successfully updated."
         end
-        format.html {
- redirect_to @post, notice: "Post was successfully updated.",
-status: :see_other }
         format.json { render :show, status: :ok, location: @post }
+        format.turbo_stream
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        format.json do
+          render json: result.errors, status: :unprocessable_entity
+        end
+        format.turbo_stream { render :edit, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /posts/1 or /posts/1.json
+# DELETE /posts/1 or /posts/1.json
   def destroy
     @post.destroy!
 
     respond_to do |format|
-      format.html {
- redirect_to posts_path, notice: "Post was successfully deleted.",
-status: :see_other }
+      format.html do
+        redirect_to posts_path,
+                    notice: "Post was successfully deleted.",
+                    status: :see_other
+      end
+      format.turbo_stream
       format.json { head :no_content }
     end
   end
@@ -107,6 +114,6 @@ status: :see_other }
     # Only allow a list of trusted parameters through.
     def post_params
       params.require(:post).permit(:body, :in_reply_to_id, :attachments,
-:visibility, community_ids: [])
+                                   :visibility, community_ids: [])
     end
 end
