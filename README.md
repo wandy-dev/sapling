@@ -69,7 +69,7 @@ Section Incomplete
 
 ## Features
 Below are a list of implemented features, there is a [roadmap](ROADMAP.md) with
-additional features, but they are not gauranteed to be worked on.
+additional features, but they are not guaranteed to be worked on.
 
 - In memory timeline cache
 - Communities
