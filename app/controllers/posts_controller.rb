@@ -23,21 +23,17 @@ class PostsController < ApplicationController
     ).find(@unhydrated_posts)
   end
 
-  # GET /posts/1 or /posts/1.json
   def show
     @replies = @post.replies
   end
 
-  # GET /posts/new
   def new
     @post = Post.new
   end
 
-  # GET /posts/1/edit
   def edit
   end
 
-  # POST /posts or /posts.json
   def create
     result = CreatePost.call(
       account: current_user.account,
@@ -90,7 +86,6 @@ class PostsController < ApplicationController
     end
   end
 
-# DELETE /posts/1 or /posts/1.json
   def destroy
     @post.destroy!
 

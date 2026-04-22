@@ -13,7 +13,7 @@ Rails.application.configure do
   # this is usually not necessary, and can slow down your test suite. However, it's
   # recommended that you enable it in continuous integration systems to ensure eager
   # loading is working properly before deploying your code.
-  config.eager_load = ENV["CI"].present?
+  config.eager_load = true
 
   # Configure public file server for tests with cache-control for performance.
   config.public_file_server.headers = { "cache-control" => "public, max-age=3600" }
@@ -40,6 +40,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: "example.com" }
 
   # Dynamic host authorization for multi-tenant community support
+  config.hosts << "www.example.com"
   config.hosts << ->(host) { Community.all_hosts.include?(host) }
 
   # Print deprecation notices to the stderr.

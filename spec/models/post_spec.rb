@@ -24,7 +24,9 @@ RSpec.describe Post do
 
         post.destroy
 
-        expect(TimelineService).to have_received(:remove_post).with(post, [community.id])
+        expect(TimelineService).to have_received(:remove_post).with(
+          post, [community.id]
+        )
       end
     end
   end

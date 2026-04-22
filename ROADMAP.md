@@ -14,20 +14,18 @@
     - [x] Posts can be scoped to communities
     - [x] Post visibility options
     - [x] Users can view community timelines
-    - [x] Community members can post private community posts
-    - [x] Non-members see a public posts only version of the community timeline
-    - [ ] Create communities
-    - [ ] List communities
-    - [ ] Join communities
+    - [x] Create communities
+    - [x] List communities
+    - [x] Join communities
+    - [ ] Community white labeling
     - [ ] Community federation
   - [ ] Community memberships
     - [x] Primary community (accounts belong to one community)
     - [x] Community memberships (accounts belong to one community)
     - [x] Post visibility options
-    - [ ] Create communities
+    - [x] Community members can post private community posts
+    - [x] Non-members see a public posts only version of the community timeline
     - [ ] Invite members
-    - [ ] Community white labeling
-    - [ ] Community federation
 - [x] Posts
   - [x] Create, edit, & delete
   - [x] Attach pictures posts
