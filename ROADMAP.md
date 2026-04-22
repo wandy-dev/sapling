@@ -52,3 +52,4 @@
 
 ### Issues
 
+- comments layout is fucked up at the moment
