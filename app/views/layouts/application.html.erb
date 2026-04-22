@@ -111,6 +111,16 @@
         <div class="column pr-0 is-hidden-touch">
           <% if user_signed_in? %>
             <aside class="menu block">
+                <p class="menu-label">Communities</p>
+                <ul class="menu-list">
+                  <li><%= link_to 'Sapling Network', posts_path, data: { turbo_action: 'replace' }, class: 'has-background-light' %> </li>
+                  <% current_user.communities.each do |community| %>
+                    <li><%= link_to community.name, posts_path(community: community.id), data: { turbo_action: 'replace' }, class: 'has-background-light' %></li>
+                  <% end %>
+                  <li><%= link_to 'Create community', new_community_path, data: { target: '_top' }, class: 'has-background-light' %></li>
+                </ul>
+            </aside>
+            <aside class="menu block">
                 <p class="menu-label">Management</p>
                 <ul class="menu-list">
                   <li><a class="has-background-light">Preferences</a></li>
@@ -147,7 +157,7 @@
       </div>
     </div>
     <div class="mobile-nav bottom is-hidden-desktop">
-      <div><%= link_to "🏠", community_path %></div>
+      <div><%= link_to "🏠", communities_path %></div>
       <div><%= link_to "🌎", posts_url(subdomain: nil) %></div>
       <div><%= link_to "➕", new_post_path %></div>
       <div><%= link_to "🔎", "#" %></div>
