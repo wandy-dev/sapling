@@ -6,6 +6,10 @@ Rails.application.routes.draw do
     resources :replies
   end
 
+  resources :communities, only: [:index, :show, :new, :create] do
+    resources :memberships, only: [:index, :create]
+  end
+
   resources :accounts, path: :profiles, as: :profiles, controller: :profiles
   resources :accounts
 

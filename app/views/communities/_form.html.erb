@@ -1,0 +1,45 @@
+<%= form_with(model: community,
+              data: { controller: "multi-step" }) do |form| %>
+  <% if community.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(community.errors.count, "error") %> prohibited this community from being saved:</h2>
+
+      <ul>
+        <% community.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div data-multi-step-target="step">
+    <div class="block">
+      <%= form.label :name, "Community Name", class: "label" %>
+      <%= form.text_field :name, class: "input", required: true %>
+    </div>
+
+    <div class="block">
+      <div class="buttons">
+        <button type="button" class="button is-info" data-action="multi-step#next" data-multi-step-target="next">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <div data-multi-step-target="step" class="is-hidden">
+    <div class="block">
+      <%= form.label :visibility, "Who can join?", class: "label" %>
+      <div class="select is-fullwidth">
+        <%= form.select :visibility,
+          Community.visibilities.keys.map { |v| [v.titleize, v] },
+          { include_blank: false } %>
+      </div>
+      <p class="help">Public communities allow anyone to join. Private communities require an admin to add members.</p>
+    </div>
+    <div class="block">
+      <div class="buttons">
+        <button type="button" class="button" data-action="multi-step#previous" data-multi-step-target="previous" hidden>Back</button>
+        <button type="submit" class="button is-success" data-multi-step-target="submit" hidden>Create Community</button>
+      </div>
+    </div>
+  </div>
+<% end %>

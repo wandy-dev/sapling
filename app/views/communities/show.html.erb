@@ -1,0 +1,42 @@
+<div class="box">
+  <div class="level">
+    <div class="level-left">
+      <div class="level-item">
+        <h1 class="title is-3"><%= @community.name %></h1>
+      </div>
+    </div>
+    <div class="level-right">
+      <div class="level-item">
+        <span class="tag <%= @community.visibility_public? ? 'is-success is-light' : 'is-warning is-light' %>">
+          <%= @community.visibility_public? ? "Public" : "Private" %>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <p><%= pluralize(@community.members.count, "member") %></p>
+  </div>
+
+  <% if user_signed_in? %>
+    <div class="block">
+      <% membership = current_user.member_of?(@community.id) %>
+
+      <% if membership %>
+        <span class="tag is-success is-light">You're a member</span>
+      <% elsif @community.visibility_public? %>
+        <%= button_to "Join Community", community_memberships_path(@community),
+          method: :post, class: "button is-success" %>
+      <% else %>
+        <p class="has-text-grey">This is a private community. Contact an admin to join.</p>
+      <% end %>
+    </div>
+
+    <% if @is_admin %>
+      <div class="block">
+        <%= link_to "Manage Members", community_memberships_path(@community),
+          class: "button is-small is-info" %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

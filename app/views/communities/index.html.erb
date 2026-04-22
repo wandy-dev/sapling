@@ -1,0 +1,39 @@
+<div class="box">
+  <% if user_signed_in? %>
+    <%= link_to "Create Community", new_community_path, class: "button is-success" %>
+  <% else %>
+    <p class="has-text-grey">Sign in to create or join communities.</p>
+  <% end %>
+</div>
+
+<% if @communities.any? %>
+  <% @communities.each do |community| %>
+    <div class="box">
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <%= link_to community.name, community, class: "title is-5" %>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <% if user_signed_in? %>
+              <% if current_user.member_of?(community.id) %>
+                <span class="tag is-success is-light">Member</span>
+              <% elsif community.visibility_public? %>
+                <%= button_to "Join", community_memberships_path(community),
+                  method: :post, class: "button is-small is-success is-light" %>
+              <% else %>
+                <span class="tag is-warning is-light">Private</span>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="box">
+    <p class="has-text-grey">No communities yet. Be the first to create one!</p>
+  </div>
+<% end %>
