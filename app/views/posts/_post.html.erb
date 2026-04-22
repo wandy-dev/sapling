@@ -73,15 +73,14 @@
         <%= link_to "🌐  Share", "#", class: 'button is-small is-rounded' %>
       </div>
     <% end %>
-      <%= turbo_frame_tag dom_id(post, :interactions) do %>
-        <div>
-          <p class="is-7">
-          <%= link_to pluralize(post.favorites.length, "favorite"), "#", data: { turbo_frame: '_top' } %>
-          &#183;
-          <%= link_to pluralize(post.replies.length, "comment"), post_path(post), data: { turbo_frame: '_top' } %>
-          </p>
-        </div>
-      <% end %>
-    </div>
+    <%= turbo_frame_tag dom_id(post, :interactions) do %>
+      <div>
+        <p class="is-7">
+        <%= link_to pluralize(post.favorites.length, "favorite"), "#", data: { turbo_frame: '_top' } %>
+        &#183;
+        <%= link_to pluralize(post.replies.length, "comment"), post_path(post), data: { turbo_frame: '_top' } %>
+        </p>
+      </div>
+    <% end %>
   </nav>
 </div>
