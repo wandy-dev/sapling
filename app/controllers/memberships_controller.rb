@@ -22,6 +22,16 @@ class MembershipsController < ApplicationController
     end
   end
 
+  def destroy
+    @membership = @community.memberships.find_by!(user: current_user)
+
+    if @membership.destroy
+      redirect_to @community, notice: "You left #{@community.name}."
+    else
+      redirect_to @community, alert: "Could not leave community."
+    end
+  end
+
   private
 
   def set_community

@@ -3,8 +3,8 @@
 > development and may have issues, this is not production grade software.
 
 - [x] In memory timeline cache
-- [ ] current user info in the sidebar
-- [ ] post visibility insights on post view
+- [x] Current user info in the sidebar
+- [x] Post visibility insights on post view
 - [ ] Communities
   - [ ] Community domains
     - [x] Each community can have it's own subdomain, allowing users to own their social presense

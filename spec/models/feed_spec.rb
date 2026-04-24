@@ -78,6 +78,21 @@ with_scores: true)).to eq([["1", 1_234_567_890], ["2", 1_234_567_891]])
     end
   end
 
+  describe "#clear" do
+    let(:feed) { Feed.new(key) }
+
+    before do
+      redis.zadd(key, Time.now.to_i, 1)
+      redis.zadd(key, Time.now.to_i, 2)
+    end
+
+    it "deletes the entire feed key" do
+      feed.clear
+
+      expect(redis.exists(key)).to eq(0)
+    end
+  end
+
   describe "#trim" do
     let(:feed) { Feed.new(key) }
 

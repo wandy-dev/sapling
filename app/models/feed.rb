@@ -30,6 +30,12 @@ class Feed
     Rails.logger.warn("Feed remove failed for #{@key}: #{e.message}")
   end
 
+  def clear
+    redis.del(@key)
+  rescue Redis::BaseError => e
+    Rails.logger.warn("Feed clear failed for #{@key}: #{e.message}")
+  end
+
   private
 
   def trim

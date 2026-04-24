@@ -35,6 +35,7 @@
 
           <div class="block">
             <% if user_signed_in? %>
+              <%= render "shared/user_card", account: current_user.account, size: :small %>
               <div class="is-hidden-touch">
                 <%= turbo_frame_tag "compose", src: new_post_path, target: "_top", class: "block" %>
               </div>
@@ -61,34 +62,7 @@
               </div>
 
               <div class="box">
-                <div class="block">
-                  <h4 class="has-text-centered"><span>Administered by:</span></h4>
-                  <div class="media">
-                    <div class="media-left">
-                      <%= link_to profile_path(@administrator), data: { turbo_frame: '_top' } do %>
-                        <% if @administrator.avatar.present? %>
-                          <figure class="image is-48x48">
-                            <%= image_tag @administrator.avatar, class: 'is-rounded' %>
-                          </figure>
-                        <% else %>
-                          <figure class="image is-48x48">
-                            <img class="is-rounded" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpng.pngtree.com%2Fpng-clipart%2F20231020%2Foriginal%2Fpngtree-sapling-sprouting-from-soil-png-image_13384337.png&f=1&nofb=1&ipt=167fdeb9aa070f27c6f3b9cacd5be1aa2b56bd8be3105b32d5e1ddc7f37ebb9e" alt="Placeholder image" />
-                          </figure>
-                        <% end %>
-                      <% end %>
-                    </div>
-                    <%= link_to profile_path(@administrator), data: { turbo_frame: '_top' } do %>
-                      <div class="media-content">
-                        <p class="title is-5">
-                          <%= @administrator.display_name %>
-                        </p>
-                        <p class="subtitle is-7">
-                          @<%= @administrator.username %>
-                        </p>
-                      </div>
-                    <% end %>
-                  </div>
-                </div>
+                <%= render "shared/user_card", account: @administrator %>
                 <div class="block">
                   <h4><span>Contact:</span></h4>
                   <a href="mailto:<%= @administrator.user.email %>"><%= @administrator.user.email %></a>

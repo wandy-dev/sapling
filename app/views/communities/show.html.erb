@@ -20,15 +20,12 @@
 
   <% if user_signed_in? %>
     <div class="block">
-      <% membership = current_user.member_of?(@community.id) %>
-
-      <% if membership %>
-        <span class="tag is-success is-light">You're a member</span>
-      <% elsif @community.visibility_public? %>
+      <% if current_user.member_of?(@community.id) %>
+        <%= button_to "Leave Community", community_memberships_path(@community, current_user.memberships.find_by(community_id: @community_id)),
+          method: :delete, class: "button is-warning" %>
+      <% else %>
         <%= button_to "Join Community", community_memberships_path(@community),
           method: :post, class: "button is-success" %>
-      <% else %>
-        <p class="has-text-grey">This is a private community. Contact an admin to join.</p>
       <% end %>
     </div>
 
