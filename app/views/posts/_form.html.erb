@@ -17,25 +17,27 @@
   <div class="block">
     <%= form.textarea :body, class: 'textarea card', placeholder: 'What\'s on your mind?' %>
   </div>
-  <div class="block select is-fullwidth">
-    <%= form.select :visibility, Post.visibilities.keys.map { |v| [v.titleize, v] }, include_blank: false %>
-  </div>
-    <% post.errors.full_messages_for(:communities).each do |message| %>
-      <p class="help is-danger"><%= message %></p>
-    <% end %>
-    <div class="box">
+  <% post.errors.full_messages_for(:communities).each do |message| %>
+    <p class="help is-danger"><%= message %></p>
+  <% end %>
+  <div class="box">
+    <div class="block">
+      <span class="label">Share to:</span>
       <% current_user.all_communities.each do |community| %>
         <div>
           <label class="switch">
-            <%= check_box_tag "post[community_ids][]", community.id,
-                post.persisted? ? post.community_ids.include?(community.id) :
-                                  community.id == current_user.community_id %>
+            <%= check_box_tag "post[community_ids][]", community.id, true %>
             <span class="slider round"></span>
           </label>
           <span><%= community.name %></span>
         </div>
       <% end %>
     </div>
+    <div class="select is-fullwidth">
+      <%= form.select :visibility, Post.visibilities.keys.map { |v| [v.titleize, v] }, include_blank: false %>
+    </div>
+    <p class="help">Public posts can be seen by anyone on sapling</p>
+  </div>
   <div class="file">
     <label class="file-label">
       <%= form.file_field :attachments, multiple: true, class: "file-input" %>
@@ -45,9 +47,6 @@
       </span>
     </label>
   </div>
-
-
-
   <div>
     <%= form.submit class: "button is-info" %>
   </div>

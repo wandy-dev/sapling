@@ -72,11 +72,7 @@
                           </figure>
                         <% else %>
                           <figure class="image is-48x48">
-                            <img
-                              src="https://bulma.io/assets/images/placeholders/64x64.png"
-                              alt="Placeholder image"
-                              class="is-rounded"
-                            />
+                            <img class="is-rounded" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpng.pngtree.com%2Fpng-clipart%2F20231020%2Foriginal%2Fpngtree-sapling-sprouting-from-soil-png-image_13384337.png&f=1&nofb=1&ipt=167fdeb9aa070f27c6f3b9cacd5be1aa2b56bd8be3105b32d5e1ddc7f37ebb9e" alt="Placeholder image" />
                           </figure>
                         <% end %>
                       <% end %>
@@ -111,20 +107,27 @@
         <div class="column pr-0 is-hidden-touch">
           <% if user_signed_in? %>
             <aside class="menu block">
-                <p class="menu-label">Communities</p>
-                <ul class="menu-list">
-                  <li><%= link_to 'Sapling Network', posts_path, data: { turbo_action: 'replace' }, class: 'has-background-light' %> </li>
-                  <% current_user.communities.each do |community| %>
-                    <li><%= link_to community.name, posts_path(community: community.id), data: { turbo_action: 'replace' }, class: 'has-background-light' %></li>
-                  <% end %>
-                  <li><%= link_to 'Create community', new_community_path, data: { target: '_top' }, class: 'has-background-light' %></li>
-                </ul>
+              <p class="menu-label">Sapling Network</p>
+              <ul class="menu-list">
+                <li><%= link_to 'Create Branch', new_community_path, data: { target: '_top' }, class: 'has-background-light' %></li>
+                <li><%= link_to 'Join a new Branch', communities_path, class: 'has-background-light' %> </li>
+              </ul>
             </aside>
             <aside class="menu block">
-                <p class="menu-label">Management</p>
-                <ul class="menu-list">
-                  <li><a class="has-background-light">Preferences</a></li>
-                </ul>
+              <p class="menu-label">My Branches</p>
+              <ul class="menu-list">
+                <li><%= link_to 'All Branches', posts_path, data: { turbo_action: 'replace' }, class: 'has-background-light' %> </li>
+                <% current_user.communities.each do |community| %>
+                  <li><%= link_to community.name, posts_path(community: community.id), data: { turbo_action: 'replace' }, class: 'has-background-light' %></li>
+                <% end %>
+              </ul>
+            </aside>
+            <aside class="menu block">
+              <p class="menu-label">Management</p>
+              <ul class="menu-list">
+                <li><a class="has-background-light">Preferences</a></li>
+                <li><%= button_to "Sign Out", destroy_user_session_path, { method: :delete, class: 'has-background-light' }  %>
+              </ul>
             </aside>
           <% end %>
 
@@ -134,8 +137,6 @@
                 <%= link_to "Sign Up", new_user_registration_path, class: 'button is-info' %>
               <% end %>
               <%= link_to "Log In", new_user_session_path, class: 'button is-light' %>
-            <% else %>
-              <%= button_to "Sign Out", destroy_user_session_path, { method: :delete } %>
             <% end %>
           </div>
         </div>

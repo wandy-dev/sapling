@@ -79,6 +79,6 @@ Rails.application.configure do
 
   # Dynamic host authorization for multi-tenant community support
   config.hosts << ->(host) {
-    Community.all_hosts.include?(host) || host == "localhost"
+    Community.all_hosts.include?(host) || host == "localhost" || host == "api.localhost"
   }
 end
