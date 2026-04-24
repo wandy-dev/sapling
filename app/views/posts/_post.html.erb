@@ -7,7 +7,7 @@
             <% if post.account.avatar.present? %>
               <%= image_tag post.account.avatar, class: 'is-rounded' %>
             <% else %>
-              <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/96x96.png" alt="Placeholder image" />
+              <img class="is-rounded" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpng.pngtree.com%2Fpng-clipart%2F20231020%2Foriginal%2Fpngtree-sapling-sprouting-from-soil-png-image_13384337.png&f=1&nofb=1&ipt=167fdeb9aa070f27c6f3b9cacd5be1aa2b56bd8be3105b32d5e1ddc7f37ebb9e" alt="Placeholder image" />
             <% end %>
           </div>
         <% end %>
@@ -27,8 +27,8 @@
       <% if user_signed_in? && current_user.account == post.account %>
         <div class="dropdown is-right" data-controller="dropdown">
           <div class="dropdown-trigger">
-            <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu-<%= post.id %>" data-action="click->dropdown#toggle">
-              <span>⋮</span>
+            <button class="button is-white" aria-haspopup="true" aria-controls="dropdown-menu-<%= post.id %>" data-action="click->dropdown#toggle">
+              <b><span>⋮</span></b>
             </button>
           </div>
           <div class="dropdown-menu" id="dropdown-menu-<%= post.id %>" role="menu" data-dropdown-target="menu">

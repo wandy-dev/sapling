@@ -5,6 +5,9 @@ class Community < ApplicationRecord
   has_many :community_posts, dependent: :destroy
   has_many :posts, through: :community_posts
 
+  enum :visibility, { public: 0, private: 1 },
+    default: :public, prefix: :visibility
+
   def self.all_hosts
     hosts = []
 

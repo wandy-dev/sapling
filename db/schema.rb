@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_05_143755) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_22_170000) do
   create_table "accounts", force: :cascade do |t|
     t.text "bio"
     t.datetime "created_at", null: false
@@ -64,6 +64,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_05_143755) do
     t.string "custom_domain"
     t.string "name"
     t.datetime "updated_at", null: false
+    t.integer "visibility", default: 0, null: false
+    t.index ["visibility"], name: "index_communities_on_visibility"
   end
 
   create_table "community_posts", force: :cascade do |t|

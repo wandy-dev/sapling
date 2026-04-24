@@ -1,0 +1,22 @@
+<div class="box">
+  <h2 class="title is-4">Members</h2>
+
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Role</th>
+        <th>Joined</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @memberships.each do |membership| %>
+        <tr>
+          <td><%= membership.user.account&.display_name || membership.user.email %></td>
+          <td><span class="tag <%= role_tag_class(membership.role) %>"><%= membership.role %></span></td>
+          <td><%= membership.created_at.strftime("%B %d, %Y") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

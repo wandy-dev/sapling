@@ -3,6 +3,8 @@
 > development and may have issues, this is not production grade software.
 
 - [x] In memory timeline cache
+- [ ] current user info in the sidebar
+- [ ] post visibility insights on post view
 - [ ] Communities
   - [ ] Community domains
     - [x] Each community can have it's own subdomain, allowing users to own their social presense
@@ -14,20 +16,18 @@
     - [x] Posts can be scoped to communities
     - [x] Post visibility options
     - [x] Users can view community timelines
-    - [x] Community members can post private community posts
-    - [x] Non-members see a public posts only version of the community timeline
-    - [ ] Create communities
-    - [ ] List communities
-    - [ ] Join communities
+    - [x] Create communities
+    - [x] List communities
+    - [x] Join communities
+    - [ ] Community white labeling
     - [ ] Community federation
   - [ ] Community memberships
     - [x] Primary community (accounts belong to one community)
     - [x] Community memberships (accounts belong to one community)
     - [x] Post visibility options
-    - [ ] Create communities
+    - [x] Community members can post private community posts
+    - [x] Non-members see a public posts only version of the community timeline
     - [ ] Invite members
-    - [ ] Community white labeling
-    - [ ] Community federation
 - [x] Posts
   - [x] Create, edit, & delete
   - [x] Attach pictures posts
@@ -49,7 +49,9 @@
 - [ ] Wishlists
 - [ ] Secret Santa
 - [ ] ActivityPub federation
+- [ ] Color coordination of communities
 
 ### Issues
 
 - comments layout is fucked up at the moment
+- timeline caches need to be invalidated after a user joins a community

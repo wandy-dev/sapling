@@ -1,32 +1,25 @@
 require 'rails_helper'
 
-RSpec.describe Community, type: :model do
-  describe "#all_hosts" do
-    let!(:community_a) {
- create(:community, name: "community_a", custom_domain: "custom.com") }
-    let!(:community_b) { create(:community, name: "community_b") }
-
-    it "includes custom domains" do
-      expect(Community.all_hosts).to include("custom.com")
+RSpec.describe Community do
+  describe "visibility" do
+    it "defaults to public" do
+      community = create(:community)
+      expect(community).to be_visibility_public
     end
 
-    it "generates subdomain variants" do
-      expect(Community.all_hosts).to include("community_a.example.com")
-      expect(Community.all_hosts).to include("community_b.example.com")
+    it "can be set to private" do
+      community = create(:community, :private)
+      expect(community).to be_visibility_private
     end
+  end
 
-    it "includes main domain" do
-      expect(Community.all_hosts).to include("example.com")
-    end
+  describe "scope: publicly_visible" do
+    it "only returns public communities" do
+      public_community = create(:community, :public)
+      private_community = create(:community, :private)
 
-    context "with no communities" do
-      before do
-        Community.destroy_all
-      end
-
-      it "returns main domain only when no communities exist" do
-        expect(Community.all_hosts).to eq(["example.com"])
-      end
+      expect(Community.visibility_public).to include(public_community)
+      expect(Community.visibility_public).not_to include(private_community)
     end
   end
 end

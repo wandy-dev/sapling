@@ -1,0 +1,50 @@
+<%= form_with(model: community,
+              html: { novalidate: true },
+              data: { controller: "multi-step subdomain-validator" }) do |form| %>
+  <div data-multi-step-target="step">
+    <%= form.label :name, "Branch address", class: "label" %>
+    <div class="block">
+      <div class="field has-addons mb-0">
+        <p class="control">
+          <a class="button is-static">https://</a>
+        </p>
+        <p class="control">
+          <%= form.text_field :name,
+            class: "input has-text-right",
+            data: {
+              action: "input->subdomain-validator#check",
+              subdomain_validator_target: "input"
+            } %>
+        </p>
+        <p class="control">
+          <a class="button is-static">.sapling.social</a>
+        </p>
+      </div>
+      <p class="help" data-subdomain-validator-target="feedback"></p>
+    </div>
+
+    <div class="block">
+      <div class="buttons">
+        <button type="button" class="button is-info" data-action="multi-step#next" data-multi-step-target="next">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <div data-multi-step-target="step" class="is-hidden">
+    <div class="block">
+      <%= form.label :visibility, "Who can join?", class: "label" %>
+      <div class="select is-fullwidth">
+        <%= form.select :visibility,
+          Community.visibilities.keys.map { |v| [v.titleize, v] },
+          { include_blank: false } %>
+      </div>
+      <p class="help">Public branches allow anyone to join. Private branches require an admin to add members.</p>
+    </div>
+    <div class="block">
+      <div class="buttons">
+        <button type="button" class="button" data-action="multi-step#previous" data-multi-step-target="previous" hidden>Back</button>
+        <button type="submit" class="button is-success" data-multi-step-target="submit" hidden>Create Branch</button>
+      </div>
+    </div>
+  </div>
+<% end %>
