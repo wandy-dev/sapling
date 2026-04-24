@@ -18,7 +18,6 @@
     - [x] Users can view community timelines
     - [x] Create communities
     - [x] List communities
-    - [x] Join communities
     - [ ] Community white labeling
     - [ ] Community federation
   - [ ] Community memberships
@@ -27,7 +26,12 @@
     - [x] Post visibility options
     - [x] Community members can post private community posts
     - [x] Non-members see a public posts only version of the community timeline
+    - [x] Join communities
+    - [ ] Leave communities
+  - [ ] Community administration
     - [ ] Invite members
+    - [ ] Kick members
+    - [ ] Invite existing sapling users
 - [x] Posts
   - [x] Create, edit, & delete
   - [x] Attach pictures posts
@@ -43,6 +47,7 @@
   - [ ] Import polls
 - [ ] Events
   - [ ] Create Events
+  - [ ] Invite users
   - [ ] RSVP to events
 - [ ] Notifications
 - [ ] Progressive web app
@@ -55,3 +60,4 @@
 
 - comments layout is fucked up at the moment
 - timeline caches need to be invalidated after a user joins a community
+- some associations are on user when they should be on account
