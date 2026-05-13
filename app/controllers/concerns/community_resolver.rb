@@ -21,7 +21,7 @@ module CommunityResolver
     end
 
     def set_administrator!
-      Current.administrator = Current.community.administrator
+      Current.administrator = Current.community&.administrator
     end
   end
 end

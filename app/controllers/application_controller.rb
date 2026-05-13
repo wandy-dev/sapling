@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
     def set_current_account!
       Current.account = session[:current_account] || current_user&.account
     end
+
     def require_user_finished_onboarding
       redirect_to new_account_path if Current.account.nil?
     end
