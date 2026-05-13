@@ -25,4 +25,8 @@ class Community < ApplicationRecord
 
     hosts.uniq
   end
+
+  def administrator
+    self.memberships.find_by(role: :owner).account
+  end
 end

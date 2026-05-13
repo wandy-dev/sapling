@@ -3,6 +3,7 @@ module CommunityResolver
 
   included do
     before_action :set_community!
+    before_action :set_administrator!
 
     private
 
@@ -17,6 +18,10 @@ module CommunityResolver
 
       # Set current community - nil means "all communities" (for example.com)
       Current.community = community
+    end
+
+    def set_administrator!
+      Current.administrator = Current.community.administrator
     end
   end
 end

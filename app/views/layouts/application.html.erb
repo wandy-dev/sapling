@@ -39,7 +39,7 @@
                 <div class="block">
                   <%= turbo_frame_tag "compose", src: new_post_path, target: "_top", class: "block" %>
                 </div>
-                <%= render "shared/account_card", account: current_user.account, size: :small %>
+                <%= render "shared/account_card", account: Current.account, size: :small %>
               </div>
             <% else %>
               <section class="block">
@@ -48,7 +48,7 @@
               </section>
 
               <div id="accounts" class='grid is-col-min-3'>
-                <% Account.first(9).each do |account| %>
+                <% Current.community.memberships.map(&:account).each do |account| %>
                   <% if account.avatar.present? %>
                     <%= link_to profile_path(account), data: { turbo_frame: '_top' } do %>
                       <figure class="image is-64x64">
@@ -64,13 +64,12 @@
               </div>
 
               <div class="box">
-                <% administrator = Account.first %>
                 <% unless user_signed_in? %>
-                  <%= render "shared/account_card", account: administrator %>
+                  <%= render "shared/account_card", account: Current.administrator %>
                 <% end %>
                 <div class="block">
                   <h4><span>Contact:</span></h4>
-                  <a href="mailto:<%= administrator.user.email %>"><%= administrator.user.email %></a>
+                  <a href="mailto:<%= Current.administrator.user.email %>"><%= Current.administrator.user.email %></a>
                 </div>
               </div>
 
@@ -96,7 +95,7 @@
               <p class="menu-label">My Branches</p>
               <ul class="menu-list">
                 <li><%= link_to 'All Branches', posts_path, data: { turbo_action: 'replace' }, class: 'has-background-light' %> </li>
-                <% current_user.account.communities.each do |community| %>
+                <% current_user&.account&.communities&.each do |community| %>
                   <li><%= link_to community.name, posts_path(community: community.id), data: { turbo_action: 'replace' }, class: 'has-background-light' %></li>
                 <% end %>
               </ul>

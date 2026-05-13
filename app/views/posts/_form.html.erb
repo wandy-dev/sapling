@@ -23,7 +23,7 @@
   <div class="box">
     <div class="block">
       <span class="label">Share to:</span>
-      <% current_user.account.all_communities.each do |community| %>
+      <% current_user&.account&.all_communities&.each do |community| %>
         <div>
           <label class="switch">
             <%= check_box_tag "post[community_ids][]", community.id, true %>

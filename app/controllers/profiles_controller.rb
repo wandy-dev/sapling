@@ -1,6 +1,7 @@
 class ProfilesController < ApplicationController
   before_action :go_landing!
   before_action :set_account, only: :show
+  before_action :require_user_finished_onboarding
 
   def new
     @account = Account.new(user: current_user)

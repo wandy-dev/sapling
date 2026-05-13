@@ -1,5 +1,6 @@
 class FavoritesController < ApplicationController
   before_action :set_account, :set_post
+  before_action :require_user_finished_onboarding
 
   def create
     CreateFavorite.call(account: @account, post: @post)

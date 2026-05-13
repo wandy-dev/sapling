@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   include CommunityResolver
-  before_action :require_user_finished_onboarding
-  before_action :set_admin
+  before_action :set_current_account!
   # Only allow modern browsers supporting webp images, web push, badges,
   # import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
@@ -10,11 +9,11 @@ class ApplicationController < ActionController::Base
   stale_when_importmap_changes
 
   private
-    def require_user_finished_onboarding
+    def set_current_account!
+      Current.account = session[:current_account] || current_user&.account
     end
-
-    def set_admin
-      @administrator = Account.first
+    def require_user_finished_onboarding
+      redirect_to new_account_path if Current.account.nil?
     end
 
     def go_landing!
