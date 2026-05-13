@@ -18,7 +18,7 @@
         <div class="level-right">
           <div class="level-item">
             <% if user_signed_in? %>
-              <% if current_user.member_of?(community.id) %>
+              <% if current_user.account.member_of?(community.id) %>
                 <span class="tag is-success is-light">Member</span>
               <% elsif community.visibility_public? %>
                 <%= button_to "Join", community_memberships_path(community),

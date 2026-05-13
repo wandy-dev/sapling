@@ -30,36 +30,10 @@ RSpec.describe Seeder do
       it "creates user in the specified community" do
         user = Seeder.create_user(
           email: "test@example.com",
-          password: "password",
-          community: community
+          password: "password"
         )
 
         expect(user.email).to eq("test@example.com")
-        expect(user.community).to eq(community)
-      end
-    end
-
-    context "without community" do
-      it "uses existing community if one exists" do
-        existing_community = create(:community, name: "existing")
-
-        user = Seeder.create_user(
-          email: "test@example.com",
-          password: "password"
-        )
-
-        expect(user.community).to eq(existing_community)
-      end
-
-      it "creates new community if none exists" do
-        Community.delete_all
-
-        user = Seeder.create_user(
-          email: "test@example.com",
-          password: "password"
-        )
-
-        expect(user.community.name).to eq("main")
       end
     end
   end

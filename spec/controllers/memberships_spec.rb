@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "/communities/:community_id/memberships", type: :request do
   let(:admin) { create(:user) }
   let(:user) { create(:user) }
+  let(:account) { create(:account, user: user) }
   let(:other_user) { create(:user) }
   let(:public_community) { create(:community, :public) }
   let(:private_community) { create(:community, :private) }
@@ -41,7 +42,7 @@ RSpec.describe "/communities/:community_id/memberships", type: :request do
 
     context "when already a member" do
       before do
-        create(:membership, user: user, community: public_community)
+        create(:membership, account: account, community: public_community)
       end
 
       it "does not create a duplicate membership" do
@@ -55,7 +56,7 @@ RSpec.describe "/communities/:community_id/memberships", type: :request do
   describe "GET /communities/:community_id/memberships" do
     context "as owner" do
       before do
-        create(:membership, user: user, community: public_community,
+        create(:membership, account: account, community: public_community,
                role: :owner)
       end
 
@@ -67,7 +68,7 @@ RSpec.describe "/communities/:community_id/memberships", type: :request do
 
     context "as non-admin" do
       before do
-        create(:membership, user: user, community: public_community,
+        create(:membership, account: account, community: public_community,
                role: :member)
       end
 

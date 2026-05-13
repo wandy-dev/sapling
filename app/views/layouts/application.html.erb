@@ -35,9 +35,11 @@
 
           <div class="block">
             <% if user_signed_in? %>
-              <%= render "shared/user_card", account: current_user.account, size: :small %>
               <div class="is-hidden-touch">
-                <%= turbo_frame_tag "compose", src: new_post_path, target: "_top", class: "block" %>
+                <div class="block">
+                  <%= turbo_frame_tag "compose", src: new_post_path, target: "_top", class: "block" %>
+                </div>
+                <%= render "shared/account_card", account: current_user.account, size: :small %>
               </div>
             <% else %>
               <section class="block">
@@ -62,10 +64,13 @@
               </div>
 
               <div class="box">
-                <%= render "shared/user_card", account: @administrator %>
+                <% administrator = Account.first %>
+                <% unless user_signed_in? %>
+                  <%= render "shared/account_card", account: administrator %>
+                <% end %>
                 <div class="block">
                   <h4><span>Contact:</span></h4>
-                  <a href="mailto:<%= @administrator.user.email %>"><%= @administrator.user.email %></a>
+                  <a href="mailto:<%= administrator.user.email %>"><%= administrator.user.email %></a>
                 </div>
               </div>
 
@@ -91,7 +96,7 @@
               <p class="menu-label">My Branches</p>
               <ul class="menu-list">
                 <li><%= link_to 'All Branches', posts_path, data: { turbo_action: 'replace' }, class: 'has-background-light' %> </li>
-                <% current_user.communities.each do |community| %>
+                <% current_user.account.communities.each do |community| %>
                   <li><%= link_to community.name, posts_path(community: community.id), data: { turbo_action: 'replace' }, class: 'has-background-light' %></li>
                 <% end %>
               </ul>

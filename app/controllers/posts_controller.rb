@@ -12,7 +12,7 @@ class PostsController < ApplicationController
 
     @unhydrated_posts = TimelineService.get_timeline(
       @selected_community,
-      current_user
+      current_user.account
     ).paginate(page: params[:page], per_page: 10)
 
     @posts = Post.includes(

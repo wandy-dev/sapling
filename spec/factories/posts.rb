@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :post do
-    account
+    account { nil }
     sequence(:body) { |n| "Post body #{n}" }
   end
 end

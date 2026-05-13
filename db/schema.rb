@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_22_170000) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_24_120000) do
   create_table "accounts", force: :cascade do |t|
     t.text "bio"
     t.datetime "created_at", null: false
@@ -96,13 +96,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_22_170000) do
   end
 
   create_table "memberships", force: :cascade do |t|
+    t.integer "account_id", null: false
     t.integer "community_id", null: false
     t.datetime "created_at", null: false
     t.integer "role"
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.index ["account_id"], name: "index_memberships_on_account_id"
     t.index ["community_id"], name: "index_memberships_on_community_id"
-    t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -138,8 +138,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_22_170000) do
   add_foreign_key "community_posts", "posts"
   add_foreign_key "favorites", "accounts"
   add_foreign_key "favorites", "posts"
+  add_foreign_key "memberships", "accounts"
   add_foreign_key "memberships", "communities"
-  add_foreign_key "memberships", "users"
   add_foreign_key "posts", "accounts"
   add_foreign_key "posts", "posts", column: "in_reply_to_id"
   add_foreign_key "users", "communities"

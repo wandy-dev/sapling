@@ -12,7 +12,6 @@ class Seeder
       user.email = email
       user.encrypted_password = password
       user.password = password
-      user.community = community
       user.save!
       user
     end

@@ -20,8 +20,8 @@
 
   <% if user_signed_in? %>
     <div class="block">
-      <% if current_user.member_of?(@community.id) %>
-        <%= button_to "Leave Community", community_memberships_path(@community, current_user.memberships.find_by(community_id: @community_id)),
+      <% if current_user&.account&.member_of?(@community.id) %>
+        <%= button_to "Leave Community", community_memberships_path(@community, current_user.account.memberships.find_by(community_id: @community_id)),
           method: :delete, class: "button is-warning" %>
       <% else %>
         <%= button_to "Join Community", community_memberships_path(@community),

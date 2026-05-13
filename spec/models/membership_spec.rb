@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Membership do
   describe "validations" do
-    it "prevents duplicate memberships for same user and community" do
+    it "prevents duplicate memberships for same account and community" do
       community = create(:community)
-      user = create(:user)
+      account = create(:account)
 
-      create(:membership, user: user, community: community)
+      create(:membership, account: account, community: community)
       expect {
-        create(:membership, user: user, community: community)
+        create(:membership, account: account, community: community)
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end

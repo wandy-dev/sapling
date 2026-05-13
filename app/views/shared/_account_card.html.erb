@@ -1,9 +1,10 @@
 <% size = local_assigns[:size] || :large %>
+<% return if local_assigns[:account].nil? %>
 
 <% if size == :small %>
   <div class="media">
     <div class="media-left">
-      <%= link_to profile_path(account), data: { turbo_frame: '_top' } do %>
+      <%= link_to profile_path(account.user), data: { turbo_frame: '_top' } do %>
         <% if account.avatar.present? %>
           <figure class="image is-32x32">
             <%= image_tag account.avatar, class: 'is-rounded' %>
@@ -15,7 +16,7 @@
         <% end %>
       <% end %>
     </div>
-    <%= link_to profile_path(account), data: { turbo_frame: '_top' } do %>
+    <%= link_to profile_path(account.user), data: { turbo_frame: '_top' } do %>
       <div class="media-content">
         <p class="is-size-7"><%= account.display_name %></p>
         <p class="is-size-7 has-text-grey">@<%= account.username %></p>
@@ -27,7 +28,7 @@
     <h4 class="has-text-centered"><span>Administered by:</span></h4>
     <div class="media">
       <div class="media-left">
-        <%= link_to profile_path(account), data: { turbo_frame: '_top' } do %>
+        <%= link_to profile_path(account.user), data: { turbo_frame: '_top' } do %>
           <% if account.avatar.present? %>
             <figure class="image is-48x48">
               <%= image_tag account.avatar, class: 'is-rounded' %>
@@ -39,7 +40,7 @@
           <% end %>
         <% end %>
       </div>
-      <%= link_to profile_path(account), data: { turbo_frame: '_top' } do %>
+      <%= link_to profile_path(account.user), data: { turbo_frame: '_top' } do %>
         <div class="media-content">
           <p class="title is-5">
           <%= account.display_name %>
