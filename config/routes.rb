@@ -18,7 +18,10 @@ Rails.application.routes.draw do
 
   resources :communities, only: [:index, :show, :new, :create], path: :branches do
     resources :memberships, only: [:index, :create]
+    match "memberships", to: "memberships#destroy", via: "delete", defaults: { id: nil }
   end
+
+
 
   resources :accounts, path: :profiles, as: :profiles, controller: :profiles
   resources :accounts

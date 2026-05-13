@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :membership do
-    user { nil }
+    account { nil }
     community { nil }
 
     trait :member do

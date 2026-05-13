@@ -23,7 +23,12 @@
         <% end %>
       </div>
     </article>
-    <div>
+    <div class="is-flex is-align-items-center">
+      <% if post.visibility_community_only? %>
+        <span class="tag is-info is-light mr-2">🔒 Community</span>
+      <% else %>
+        <span class="tag is-light mr-2">🌐 Public</span>
+      <% end %>
       <% if user_signed_in? && current_user.account == post.account %>
         <div class="dropdown is-right" data-controller="dropdown">
           <div class="dropdown-trigger">

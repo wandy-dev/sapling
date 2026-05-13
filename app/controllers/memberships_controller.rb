@@ -4,12 +4,12 @@ class MembershipsController < ApplicationController
   before_action :require_admin!, only: [:index]
 
   def index
-    @memberships = @community.memberships.includes(user: :account)
+    @memberships = @community.memberships.includes(:account)
   end
 
   def create
-    if @community.visibility_public? && !current_user.member_of?(@community.id)
-      @membership = @community.memberships.new(user: current_user,
+    if @community.visibility_public? && !current_user&.account&.member_of?(@community.id)
+      @membership = @community.memberships.new(account: current_user.account,
                                                role: :member)
 
       if @membership.save
@@ -22,6 +22,16 @@ class MembershipsController < ApplicationController
     end
   end
 
+  def destroy
+    @membership = @community.memberships.find_by!(account: current_user.account)
+
+    if @membership.destroy
+      redirect_to @community, notice: "You left #{@community.name}."
+    else
+      redirect_to @community, alert: "Could not leave community."
+    end
+  end
+
   private
 
   def set_community
@@ -29,7 +39,7 @@ class MembershipsController < ApplicationController
   end
 
   def require_admin!
-    membership = @community.memberships.find_by(user: current_user)
+    membership = @community.memberships.find_by(account: current_user.account)
     unless membership&.admin? || membership&.owner?
       redirect_to @community, alert: "Only admins can manage members."
     end

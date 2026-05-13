@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe TimelineService do
   let(:user) { create(:user) }
+  let(:account) { create(:account, user: user) }
   let(:feed_instance) { instance_double(Feed, append: nil, remove: nil) }
   let(:community) { create(:community) }
 
@@ -11,7 +12,7 @@ RSpec.describe TimelineService do
     end
 
     before do
-      allow(user).to receive(
+      allow(account).to receive(
         :member_of?
       ).with(community.id).and_return(membership)
       allow(Feed).to receive(:new).and_return(feed_instance)
@@ -46,20 +47,23 @@ RSpec.describe TimelineService do
   describe ".append_post" do
     before do
       Post.skip_callback(:commit, :after, :append_to_timeline)
+      Post.skip_callback(:destroy, :before, :remove_from_timeline)
       allow(Feed).to receive(:new).and_return(feed_instance)
       allow(feed_instance).to receive(:append)
+      allow(feed_instance).to receive(:clear)
     end
 
     after do
       Post.set_callback(:commit, :after, :append_to_timeline)
+      Post.set_callback(:destroy, :before, :remove_from_timeline)
     end
 
     it "appends to member's local timelines" do
-      post = create(:post, communities: [community])
-      create(:membership, user: user, community: community)
+      post = create(:post, communities: [community], account: account)
+      create(:membership, account: account, community: community)
 
       expect(Feed).to receive(:new).with(
-        "timeline:user:#{user.id}:local"
+        "timeline:account:#{account.id}:local"
       ).and_return(feed_instance)
       expect(feed_instance).to receive(:append)
 
@@ -67,8 +71,8 @@ RSpec.describe TimelineService do
     end
 
     it "appends to public and local timeline for each community" do
-      post = create(:post, communities: [community])
-      create(:membership, user: user, community: community)
+      post = create(:post, communities: [community], account: account)
+      create(:membership, account: account, community: community)
 
       expect(Feed).to receive(:new).with(
         "timeline:community:#{community.id}:public"
@@ -77,7 +81,7 @@ RSpec.describe TimelineService do
         "timeline:community:#{community.id}:private"
       )
       expect(Feed).to receive(:new).with(
-        "timeline:user:#{user.id}:local"
+        "timeline:account:#{account.id}:local"
       ).and_return(feed_instance)
       expect(feed_instance).to receive(:append)
 
@@ -86,7 +90,9 @@ RSpec.describe TimelineService do
 
     context "with community_only post" do
       let(:post) do
-        create(:post, communities: [community], visibility: :community_only)
+        create(:post, communities: [community],
+               account: account,
+               visibility: :community_only)
       end
 
       it "does not append to public timeline" do
@@ -101,8 +107,6 @@ RSpec.describe TimelineService do
   end
 
   describe ".remove_post" do
-    let(:community) { create(:community) }
-
     before do
       Post.skip_callback(:commit, :after, :append_to_timeline)
 
@@ -118,7 +122,7 @@ RSpec.describe TimelineService do
     # TODO: more cosideration needs to be put into how to handle a fan out
     # strategy
     it "removes from all timelines" do
-      post = create(:post, communities: [community])
+      post = create(:post, communities: [community], account: account)
 
       TimelineService.remove_post(post, [community.id])
 

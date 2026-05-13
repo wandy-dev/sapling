@@ -4,12 +4,12 @@ class CommunitiesController < ApplicationController
 
   def index
     @communities = Community.joins(:memberships).where(
-      memberships: { community: current_user.all_communities }
+      memberships: { community: current_user&.account&.all_communities }
     ).or(Community.visibility_public).distinct
   end
 
   def show
-    @membership = @community.memberships.find_by(user: current_user)
+    @membership = @community.memberships.find_by(account: current_user.account)
     @is_admin = @membership&.admin? || @membership&.owner?
   end
 
@@ -19,7 +19,7 @@ class CommunitiesController < ApplicationController
 
   def create
     @community = Community.new(community_params)
-    @community.memberships.new(user: current_user, role: :owner)
+    @community.memberships.new(account: current_user.account, role: :owner)
 
     respond_to do |format|
       if @community.save

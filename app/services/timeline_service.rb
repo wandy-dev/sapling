@@ -1,13 +1,13 @@
 class TimelineService
   class << self
-    def get_timeline(community, user = nil)
-      if community.nil? && user.present?
-        return Feed.new(user_local_key(user)).fetch do
-          fetch_user_local_timeline(user)
+    def get_timeline(community, account = nil)
+      if community.nil? && account.present?
+        return Feed.new(account_local_key(account)).fetch do
+          fetch_account_local_timeline(account)
         end
       end
 
-      if user&.member_of?(community.id)
+      if account&.member_of?(community.id)
         Feed.new(visibility_community_only_key(community)).fetch do
           fetch_member_timeline(community)
         end
@@ -32,17 +32,13 @@ class TimelineService
       end
 
       # TODO: replace inline with background job
-      # fan out to all users local timelines
-      User.joins(:memberships)
+      # fan out to all accounts local timelines
+      Account.joins(:memberships)
         .where(memberships: { community: post.communities })
         .distinct
-        .each do |member|
-          Feed.new(user_local_key(member)).append(post.id, post.created_at.to_i)
+        .each do |account|
+          Feed.new(account_local_key(account)).append(post.id, post.created_at.to_i)
         end
-
-      User.where(community: post.community_ids).distinct.each do |member|
-        Feed.new(user_local_key(member)).append(post.id, post.created_at.to_i)
-      end
     end
 
     def remove_post(post, community_ids)
@@ -52,23 +48,19 @@ class TimelineService
       end
 
       # TODO: replace inline with background job
-      # fan out to all users local timelines
-      User.joins(:memberships)
+      # fan out to all accounts local timelines
+      Account.joins(:memberships)
           .where(memberships: { community: community_ids })
           .distinct
-          .each do |member|
-            Feed.new(user_local_key(member)).remove(post.id)
+          .each do |account|
+            Feed.new(account_local_key(account)).remove(post.id)
           end
-
-      User.where(community: post.community_ids).each do |member|
-        Feed.new(user_local_key(member)).remove(post.id)
-      end
     end
 
     private
 
-    def user_local_key(user)
-      "timeline:user:#{user.id}:local"
+    def account_local_key(account)
+      "timeline:account:#{account.id}:local"
     end
 
     def visibility_community_only_key(community)
@@ -83,10 +75,10 @@ class TimelineService
       "timeline:community:#{id}:public"
     end
 
-    def fetch_user_local_timeline(user)
+    def fetch_account_local_timeline(account)
       Post.original_post
           .joins(:community_posts)
-          .where(community_posts: { community: user.all_communities })
+          .where(community_posts: { community: account.all_communities })
           .order(created_at: :desc)
           .pluck(:id, :created_at).map do |id, created_at|
             [id, created_at.to_i]
@@ -94,9 +86,9 @@ class TimelineService
     end
 
     def fetch_public_timeline(community)
-      # WARNING: result is cached under a SHARED key (all public users).
-      # Do NOT add any user-specific filtering here. If you need per-user
-      # results, you must use a per-user cache key instead.
+      # WARNING: result is cached under a SHARED key (all public accounts).
+      # Do NOT add any account-specific filtering here. If you need per-account
+      # results, you must use a per-account cache key instead.
       Post.original_post.visibility_public
           .joins(:community_posts)
           .where(community_posts: { community: community })
@@ -107,9 +99,9 @@ class TimelineService
     end
 
     def fetch_member_timeline(community)
-      # WARNING: result is cached under a SHARED key (all private users).
-      # Do NOT add any user-specific filtering here. If you need per-user
-      # results, you must use a per-user cache key instead.
+      # WARNING: result is cached under a SHARED key (all private accounts).
+      # Do NOT add any account-specific filtering here. If you need per-account
+      # results, you must use a per-account cache key instead.
       Post.original_post
           .joins(:community_posts)
           .where(community_posts: { community: community })

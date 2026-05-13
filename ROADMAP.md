@@ -3,8 +3,8 @@
 > development and may have issues, this is not production grade software.
 
 - [x] In memory timeline cache
-- [ ] current user info in the sidebar
-- [ ] post visibility insights on post view
+- [x] Current user info in the sidebar
+- [x] Post visibility insights on post view
 - [ ] Communities
   - [ ] Community domains
     - [x] Each community can have it's own subdomain, allowing users to own their social presense
@@ -27,7 +27,7 @@
     - [x] Community members can post private community posts
     - [x] Non-members see a public posts only version of the community timeline
     - [x] Join communities
-    - [ ] Leave communities
+    - [x] Leave communities
   - [ ] Community administration
     - [ ] Invite members
     - [ ] Kick members
@@ -58,6 +58,4 @@
 
 ### Issues
 
-- comments layout is fucked up at the moment
-- timeline caches need to be invalidated after a user joins a community
 - some associations are on user when they should be on account

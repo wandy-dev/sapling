@@ -1,0 +1,55 @@
+<% size = local_assigns[:size] || :large %>
+<% return if local_assigns[:account].nil? %>
+
+<% if size == :small %>
+  <div class="media">
+    <div class="media-left">
+      <%= link_to profile_path(account.user), data: { turbo_frame: '_top' } do %>
+        <% if account.avatar.present? %>
+          <figure class="image is-32x32">
+            <%= image_tag account.avatar, class: 'is-rounded' %>
+          </figure>
+        <% else %>
+          <figure class="image is-32x32">
+            <img class="is-rounded" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpng.pngtree.com%2Fpng-clipart%2F20231020%2Foriginal%2Fpngtree-sapling-sprouting-from-soil-png-image_13384337.png&f=1&nofb=1&ipt=167fdeb9aa070f27c6f3b9cacd5be1aa2b56bd8be3105b32d5e1ddc7f37ebb9e" alt="Placeholder image" />
+          </figure>
+        <% end %>
+      <% end %>
+    </div>
+    <%= link_to profile_path(account.user), data: { turbo_frame: '_top' } do %>
+      <div class="media-content">
+        <p class="is-size-7"><%= account.display_name %></p>
+        <p class="is-size-7 has-text-grey">@<%= account.username %></p>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="block">
+    <h4 class="has-text-centered"><span>Administered by:</span></h4>
+    <div class="media">
+      <div class="media-left">
+        <%= link_to profile_path(account.user), data: { turbo_frame: '_top' } do %>
+          <% if account.avatar.present? %>
+            <figure class="image is-48x48">
+              <%= image_tag account.avatar, class: 'is-rounded' %>
+            </figure>
+          <% else %>
+            <figure class="image is-48x48">
+              <img class="is-rounded" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpng.pngtree.com%2Fpng-clipart%2F20231020%2Foriginal%2Fpngtree-sapling-sprouting-from-soil-png-image_13384337.png&f=1&nofb=1&ipt=167fdeb9aa070f27c6f3b9cacd5be1aa2b56bd8be3105b32d5e1ddc7f37ebb9e" alt="Placeholder image" />
+            </figure>
+          <% end %>
+        <% end %>
+      </div>
+      <%= link_to profile_path(account.user), data: { turbo_frame: '_top' } do %>
+        <div class="media-content">
+          <p class="title is-5">
+          <%= account.display_name %>
+          </p>
+          <p class="subtitle is-7">
+          @<%= account.username %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

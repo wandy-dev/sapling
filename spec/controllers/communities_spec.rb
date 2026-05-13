@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "/communities", type: :request do
   let(:user) { create(:user) }
+  let(:account) { user.account }
 
   before do
     sign_in user
@@ -37,7 +38,7 @@ RSpec.describe "/communities", type: :request do
         }
 
         community = Community.last
-        expect(community.memberships.find_by(user: user)).to be_owner
+        expect(community.memberships.find_by(account: account)).to be_owner
       end
 
       it "redirects to the community page" do
