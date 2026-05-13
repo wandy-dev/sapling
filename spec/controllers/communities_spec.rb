@@ -3,8 +3,13 @@ require 'rails_helper'
 RSpec.describe "/communities", type: :request do
   let(:user) { create(:user) }
   let(:account) { user.account }
+  let!(:community) { create(:community, name: 'test') }
+  let!(:membership) do
+    create(:membership, :owner, account: account, community: community)
+  end
 
   before do
+    host! "test.example.com"
     sign_in user
   end
 
@@ -60,8 +65,6 @@ RSpec.describe "/communities", type: :request do
   end
 
   describe "GET /communities/:id" do
-    let(:community) { create(:community) }
-
     it "returns http success" do
       get community_url(community)
       expect(response).to have_http_status(:success)
