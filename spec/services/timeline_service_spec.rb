@@ -8,7 +8,7 @@ RSpec.describe TimelineService do
 
   describe ".get_timeline" do
     after do
-      TimelineService.get_timeline(community, user)
+      TimelineService.get_timeline(community, account)
     end
 
     before do
@@ -19,7 +19,7 @@ RSpec.describe TimelineService do
       allow(feed_instance).to receive(:fetch)
     end
 
-    context "when user is a member of community" do
+    context "when account is a member of community" do
       let(:membership) { true }
 
       it "fetches from Feed with community private key" do
@@ -31,7 +31,7 @@ RSpec.describe TimelineService do
       end
     end
 
-    context "when user is NOT a member of community" do
+    context "when account is NOT a member of community" do
       let(:membership) { false }
 
       it "fetches from Feed with community public key" do

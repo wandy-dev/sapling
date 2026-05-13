@@ -1,6 +1,7 @@
 class RepliesController < ApplicationController
   before_action :set_post
   before_action :set_reply, only: %i[ show edit update destroy ]
+  before_action :require_user_finished_onboarding
 
   def index
     @posts = Post.where(in_reply_to: @post).order(created_at: :desc)

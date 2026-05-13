@@ -2,6 +2,7 @@ class MembershipsController < ApplicationController
   before_action :go_landing!
   before_action :set_community
   before_action :require_admin!, only: [:index]
+  before_action :require_user_finished_onboarding
 
   def index
     @memberships = @community.memberships.includes(:account)

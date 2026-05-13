@@ -3,6 +3,7 @@ require 'will_paginate/array'
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
   before_action :go_landing!
+  before_action :require_user_finished_onboarding
 
   def index
     @communities = Community.all
@@ -17,6 +18,7 @@ class PostsController < ApplicationController
 
     @posts = Post.includes(
       :favorites,
+      :account,
       attachments_attachments: [:blob],
       account: { avatar_attachment: :blob },
       replies: [:account]

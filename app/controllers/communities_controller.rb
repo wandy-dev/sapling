@@ -1,6 +1,7 @@
 class CommunitiesController < ApplicationController
   before_action :go_landing!
   before_action :set_community, only: [:show]
+  before_action :require_user_finished_onboarding
 
   def index
     @communities = Community.joins(:memberships).where(

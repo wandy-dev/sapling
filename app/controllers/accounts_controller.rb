@@ -13,6 +13,12 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       if @account.save
+        Current.account = @account
+        if Current.community
+          @account.memberships.find_or_create_by(
+            community: Current.community, role: :member
+          )
+        end
         format.html { redirect_to root_path, notice: "Thanks for signing up!" }
       else
         format.html { render :new, status: :unprocessable_entity }

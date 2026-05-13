@@ -9,8 +9,9 @@
   - [ ] Community domains
     - [x] Each community can have it's own subdomain, allowing users to own their social presense
     - [x] Communities can have custom domains offering a greater level of control
-    - [ ] User accounts are scoped to subdomain/domain
-    - [ ] Users can sign up on subdomain/domain and have their primary community set
+    - [x] Accounts are scoped to subdomain/domain
+    - [x] User onboarding flow on subdomain
+    - [ ] Accounts have a primary community which "hosts" their account
     - [ ] Community white labeling
   - [ ] Community interactions
     - [x] Posts can be scoped to communities
@@ -18,7 +19,6 @@
     - [x] Users can view community timelines
     - [x] Create communities
     - [x] List communities
-    - [ ] Community white labeling
     - [ ] Community federation
   - [ ] Community memberships
     - [x] Primary community (accounts belong to one community)
