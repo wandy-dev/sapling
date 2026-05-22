@@ -22,18 +22,23 @@ class RepliesController < ApplicationController
 
   # POST /replies or /replies.json
   def create
-    @post = Post.new(reply_params)
-    @post.account = current_user.account
+    result = CreateReply.call(
+      account: current_user.account,
+      post_params: reply_params
+    )
+    binding.pry
 
     respond_to do |format|
-      if @post.save
-        format.html {
- redirect_to @post, notice: "Post was successfully created." }
-        format.json { render :show, status: :created, location: @post }
+      if result.success?
+        format.html do
+          redirect_to result.in_reply_to,
+          notice: "Post was successfully created."
+        end
         format.turbo_stream
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        format.html do
+          redirect_to result.in_reply_to, status: :unprocessable_entity
+        end
       end
     end
   end
